@@ -39,7 +39,7 @@ export default function ForgerPassword() {
                     </p>
                 </div>
             </div>
-        </div>  
+        </div>
         <FooterOne/>
 
         <ScrollToTop/>

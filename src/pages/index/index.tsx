@@ -56,7 +56,7 @@ return (
                     <div>
                         <img src={chair} alt="" className="mx-auto w-14 sm:w-24"/>
                     </div>
-                    <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Product Category</h3>
+                    <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Top Products</h3>
                     <p className="mt-3">Explore our curated selection of premium products, tailored to suit every need and taste. From essentials to indulgences, find your perfect fit. </p>
                 </div>
                 <div className="max-w-[1720px] mx-auto relative group" data-aos="fade-up" data-aos-delay="100">
@@ -92,7 +92,7 @@ return (
         <div className="s-py-50-100">
             <div className="container-fluid">
                 <div className="max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
-                    <div>  
+                    <div>
                         <img src={sofa} alt="" className="mx-auto w-14 sm:w-24"/>
                     </div>
                     <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">New Products</h3>
@@ -119,7 +119,7 @@ return (
                 <div className="max-w-[1720px] mx-auto">
                     <div className="max-w-[1186px] ml-auto">
                         <div className="max-w-xl mb-8 md:mb-12">
-                            <div> 
+                            <div>
                                 <img src={like} className="w-14 sm:w-24" alt="" />
                             </div>
                             <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Why you Choose Us</h3>
@@ -157,7 +157,7 @@ return (
                                 <div className="group" key={index}>
                                     <div className="relative overflow-hidden">
                                         <Link to="/product-details">
-                                            <img className="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" src={item.image} alt="product-card"/> 
+                                            <img className="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" src={item.image} alt="product-card"/>
                                         </Link>
 
                                         <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
@@ -176,7 +176,9 @@ return (
                                         </div>
                                     </div>
                                     <div className="lg:pt-6 pt-5 flex gap-3 md:gap-4 flex-col">
-                                        <h4 className="font-medium leading-none dark:text-white text-lg">{item.price}  <span className="text-title/50 line-through pl-2 inline-block">$140.99</span></h4>
+                                        <h4 className="font-medium leading-none dark:text-white text-lg">{item.price}
+                                            <span className="text-title/50 line-through pl-2 inline-block">$140.99</span>
+                                        </h4>
                                         <div>
                                             <h5 className="font-normal dark:text-white text-xl leading-[1.5]">
                                                 <Link to="/product-details" className="text-underline">{item.name}</Link>
@@ -247,7 +249,7 @@ return (
             <div className="container-fluid">
                 <div className="max-w-[1720px] mx-auto">
                     <div className="max-w-xl mx-auto mb-8 md:mb-12 text-center">
-                        <div> 
+                        <div>
                             <img src={comment} className="mx-auto w-14 sm:w-24" alt="" />
                         </div>
                         <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Latest Blog</h3>

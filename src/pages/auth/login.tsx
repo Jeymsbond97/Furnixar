@@ -13,7 +13,7 @@ export default function Login() {
     useEffect(()=>{
         Aos.init()
     })
-  return (
+return (
     <>
         <NavbarOne/>
 
@@ -22,7 +22,7 @@ export default function Login() {
                 <img className="h-full object-cover" src={bg} alt="login"/>
             </div>
             <div className="w-full md:w-1/2 lg:max-w-lg xl:max-w-3xl lg:w-full py-16 px-[20px] sm:px-8 lg:p-16 xl:p-24 relative z-10 flex items-center overflow-hidden">
-                
+
                 <div className="mx-auto md:mx-0 max-w-md">
                     <h2 className="leading-none" data-aos="fade-up" data-aos-delay="100">Welcome back !</h2>
                     <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">Buy & sale your exclusive product only on Furnixar</p>

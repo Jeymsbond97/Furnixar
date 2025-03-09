@@ -2,7 +2,7 @@ import w1 from '../assets/img/gallery/wishList-01.jpg'
 import w2 from '../assets/img/gallery/wishList-02.jpg'
 import w3 from '../assets/img/gallery/wishList-03.jpg'
 import w4 from '../assets/img/gallery/wishList-04.jpg'
-import w5 from '../assets/img/gallery/wishList-05.jpg'
+
 
 
 export const cartList = [

@@ -46,7 +46,7 @@ export default function NavbarOne() {
                         <Link to="/about">About</Link>
                             </li>
                         <li className={`relative ${['/cart',].includes(current) ? 'active' : ''}`}>
-                            <Link to="/cart">Orders</Link>
+                            <Link to="/cart">Carts</Link>
                         </li>
                         <li className={`relative ${['/blog-v1'].includes(current) ? 'active' : ''}`}>
                             <Link to="#">Blog</Link>
