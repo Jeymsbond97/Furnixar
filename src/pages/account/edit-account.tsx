@@ -14,9 +14,9 @@ export default function EditAccount() {
     useEffect(()=>{
         Aos.init()
     })
-  return (
+    return (
     <>
-     <NavbarOne/>   
+    <NavbarOne/>
 
     <div className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
         <div className="text-center w-full">
@@ -64,10 +64,6 @@ export default function EditAccount() {
                                 <div>
                                     <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Bio</label>
                                     <textarea className="w-full h-28 md:h-[168px] bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" name="Message" placeholder="Write your bio . . ."></textarea>
-                                </div>
-                                <div>
-                                    <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Web / Social Media</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="www.facebook.com/johndoe"/>
                                 </div>
                             </div>
                         </div>
