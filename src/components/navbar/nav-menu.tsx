@@ -10,12 +10,11 @@ import IncreDre from '../incre-dre';
 
 
 export default function NavMenu() {
-    const authMember = null;
+    const authMember = true;
     const [cart, setCart] = useState<boolean>(false)
 return (
     <div className="flex items-center gap-4 sm:gap-6">
         <Link to={authMember ? "/login" : "/register"} className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block"> {authMember ? "Login" : "Signup"}</Link>
-
         <button className="relative hdr_cart_btn" onClick={()=> setCart(!cart)}>
             <span className="absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">1</span>
             <RiShoppingBag4Line className="text-title dark:text-white size-6"/>

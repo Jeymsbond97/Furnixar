@@ -15,7 +15,7 @@ export default function MyProfile() {
     useEffect(()=>{
         Aos.init()
     })
-  return (
+    return (
     <>
         <NavbarOne/>
 
@@ -66,7 +66,7 @@ export default function MyProfile() {
         </div>
 
         <FooterOne/>
-        
+
         <ScrollToTop/>
     </>
   )

@@ -5,7 +5,7 @@ export default function NavScroll() {
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight; 
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (scrollTop / scrollHeight) * 100;
     setScrollWidth(scrolled);
   };

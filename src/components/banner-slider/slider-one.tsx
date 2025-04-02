@@ -17,7 +17,7 @@ export default function SliderOne() {
                                     <h4 className="leading-none text-[#627952] dark:text-[#627952] font-semibold">$110</h4>
                                     <h3 className="leading-none mt-4">Aurora Flexible Vase</h3>
                                     <div className="group mt-[10px]">
-                                        <Link to="/product-details" className="text-lg leading-none text-title font-medium  text-underline dark:text-white">Buy Now</Link>
+                                        <Link to="/shop-v" className="text-lg leading-none text-title font-medium  text-underline dark:text-white">Buy Now</Link>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@ export default function SliderOne() {
                                     <h2 className="mt-[10px] font-normal text-3xl sm:text-4xl xl:text-5xl !leading-[1.3] dark:text-white">Exciting New Arrivals Unmissable Just Landed</h2>
                                     <p className="dark:text-white-light mt-3 md:mt-4 sm:max-w-[450px] xl:max-w-full">Discover the latest must-have arrivals! Elevate your style with our newest collection of trendsetting items. Find your perfect fit with our diverse product.</p>
                                     <div className="button mt-4 md:mt-6">
-                                        <Link className="btn btn-outline" to="/shop-v2" data-text="Shop Now"><span>Shop Now</span></Link>
+                                        <Link className="btn btn-outline" to="/shop-v1" data-text="Shop Now"><span>Shop Now</span></Link>
                                     </div>
                                 </div>
                                 <div className="sm:max-w-[750px] w-full">
