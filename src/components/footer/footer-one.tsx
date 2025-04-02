@@ -8,7 +8,7 @@ import { footerLink1, footerLink2, footerLink3, footerLink4 } from '../../data/n
 import { FaFacebookF, FaHeart, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 
 export default function FooterOne() {
-  return (
+    return (
         <div className="relative bg-overlay before:bg-title before:bg-opacity-95" style={{backgroundImage:`url(${bg})`}}>
             <div className="s-pt-100">
                 <div className="container-fluid">
@@ -92,7 +92,7 @@ export default function FooterOne() {
                     </div>
 
                     <div className="max-w-[1722px] mx-auto border-t border-white border-opacity-10 py-5 md:py-7 text-center">
-                        <p className="text-white-light inline-flex align-middle">© {new Date().getFullYear()} Furnixar Develop with <FaHeart className="fa-solid fa-heart mx-1 text-red-500"></FaHeart>  By <Link to="/" target="_blank" className='ms-1'>Tokhirbek</Link></p>
+                        <p className="text-white-light inline-flex align-middle">© {new Date().getFullYear()} Furnixar - Modurn Design with <FaHeart className="fa-solid fa-heart mx-1 text-red-500"></FaHeart>  By <Link to="/" target="_blank" className='ms-1'>Tokhirbek</Link></p>
                     </div>
                 </div>
             </div>

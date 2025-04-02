@@ -6,11 +6,9 @@ export default function SelectOne() {
     const [selectedOption, setSelectedOption] = useState("Navana Furniture");
 
     const options = [
-        "Navana Furniture",
-        "RFL Furniture",
-        "Gazi Furniture",
-        "Plastic Furniture",
-        "Luxury Furniture",
+        "New",
+        "Price",
+        "View",
     ];
 
         const handleSelect = (option:string) => {

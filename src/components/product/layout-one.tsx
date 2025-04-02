@@ -1,5 +1,5 @@
 import { GoStarFill } from 'react-icons/go'
-import { LuEye } from 'react-icons/lu'
+import { LuEye,} from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ interface Item{
 }
 
 export default function LayoutOne({ item }: { item: Item }) {
-return (
+    return (
         <div className="group">
             <div className="relative overflow-hidden">
                 <Link to={`/product-details/${item.id}`}>
@@ -40,7 +40,7 @@ return (
                     </Link>
                     <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                         <LuEye className="dark:text-white h-[22px] w-[20px]"/>
-                        <span className="mt-1">Viewed 13</span>
+                        <span className="mt-1">View 13</span>
                     </button>
                 </div>
             </div>
@@ -61,5 +61,5 @@ return (
                 </div>
             </div>
         </div>
-  )
+    )
 }

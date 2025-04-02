@@ -41,7 +41,6 @@ return (
                         <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Choose Category</h4>
                         <div className="flex flex-wrap gap-[10px] md:gap-[15px]">
                             <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Sofa & Chair"><span>Sofa & Chair</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Full Interior"><span>Full Interior</span></Link>
                             <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Lamp & Vase"><span>Lamp & Vase</span></Link>
                             <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Table"><span>Table</span></Link>
                             <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Wood Design"><span>Wood Design</span></Link>
@@ -49,26 +48,15 @@ return (
                     </div>
                     <div className="max-w-[562px] w-full grid sm:grid-cols-2 gap-8 md:gap-12">
                         <div>
-                            <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Price Range</h4>
-                            <div className="grid grid-cols-2 gap-[15px]">
-                                <div className="py-[10px] px-5 border border-title dark:border-white-light flex items-center justify-center gap-[5px]">
-                                    <span className="text-title dark:text-white font-medium leading-none"></span>
-                                    <div className="relative">
-                                        <span className="text-title dark:text-white font-medium leading-none absolute left-0 top-1/2 block transform -translate-y-1/2">$</span>
-                                        <input className="pl-[10px] w-full appearance-none bg-transparent text-title dark:text-white font-medium leading-none placeholder:text-title dark:placeholder:text-white placeholder  placeholder:font-medium placeholder:leading-none outline-none " type="number" placeholder="0" value="0"/>
-                                    </div>
-                                </div>
-                                <div className="py-[10] px-5 border border-title dark:border-white-light flex items-center justify-center gap-[5px]">
-                                    <span className="text-title dark:text-white font-medium leading-none">Max:</span>
-                                    <div className="relative">
-                                        <span className="text-title dark:text-white  font-medium leading-none absolute left-0 top-1/2 block transform -translate-y-1/2">$</span>
-                                        <input className="pl-[10px] w-full appearance-none bg-transparent text-title dark:text-white font-medium leading-none placeholder:text-title dark:placeholder:text-white  placeholder:font-medium placeholder:leading-none outline-none " type="number" placeholder="100" value="100"/>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Search</h4>
+                            <input
+                                    type="text"
+                                    placeholder="Search products..."
+                                    className="w-full py-[14px] px-5 border border-title dark:border-white-light text-title dark:text-white font-medium leading-none outline-none bg-transparent placeholder:text-title dark:placeholder:text-white"
+                                />
                         </div>
                         <div>
-                            <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Choose Brand</h4>
+                            <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Sort By Options</h4>
                             <SelectOne/>
                         </div>
                     </div>

@@ -50,7 +50,7 @@ export const footerLink1 = [
 export const footerLink2 = [
     {
         name:'Shipping Method',
-        link:'/shipping-method'
+        link:'/'
     },
     {
         name:'Payment Method',
