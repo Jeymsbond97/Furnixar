@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Index from './pages/index'
 import About from './pages/inner-pages/about'
-import Pricing from './pages/inner-pages/pricing'
 import Team from './pages/inner-pages/team'
 import OurClients from './pages/inner-pages/our-clients'
 import Faq from './pages/inner-pages/faq'
@@ -32,7 +31,6 @@ function App() {
     <Routes>
           <Route path="/" element={<Index/>} />
           <Route path="/about" element={<About/>} />
-          <Route path="/pricing" element={<Pricing/>} />
           <Route path="/team" element={<Team/>} />
           <Route path="/our-clients" element={<OurClients/>} />
           <Route path="/faq" element={<Faq/>} />
