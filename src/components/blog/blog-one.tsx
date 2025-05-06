@@ -11,11 +11,9 @@ return (
                             <img className="duration-300 transform scale-100 group-hover:scale-110 w-full" src={item.image} alt="blog"/>
                         </Link>
                         <div className="text-center mt-4 px-3">
-                            <ul className="flex items-center justify-center gap-[10px] flex-wrap">
-                                <li className="text-[15px] leading-none dark:text-white">{item.date}</li>
-                                <li><Link to="/shop-v1" className="inline-block text-title dark:text-white font-medium text-[15px] leading-none py-2 px-[10px] rounded-md bg-primary-midum dark:bg-primary">{item.tag}</Link></li>
-                            </ul>
-                            <h5 className="text-xl mt-3 font-medium dark:text-white leading-[1.5]"><Link to="/" className="text-underline">{item.title}</Link></h5>
+                            <h1 className="text-2xl font-bold text-gray-800 dark:text-white leading-tight">
+                                <Link to="/" className="text-underline">{item.title}</Link>
+                            </h1>
                         </div>
                     </div>
                 )

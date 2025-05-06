@@ -144,9 +144,13 @@ return (
                         <div>
                             <img src={comment} className="mx-auto w-14 sm:w-24" alt="" />
                         </div>
-                        <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Latest Blog</h3>
-                        <h6>(Fixed)</h6>
-                        <p className="mt-3">Stay informed and inspired with our latest blog posts. Explore insightful content that keeps you ahead of trends and informed on topics you love. </p>
+                        <h3 className="leading-none mt-4 md:mt-6 text-2xl md:text-3xl">Active Users</h3>
+                        <h6>(Thanks for activities)</h6>
+                        <p className="mt-3">
+                            Explore the most active members of our community –
+                            those who consistently engage, contribute, and inspire. Stay updated on top users making a
+                            difference every day!
+                        </p>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="100">
                         <BlogOne/>

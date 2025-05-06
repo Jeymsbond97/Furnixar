@@ -250,7 +250,7 @@ export const blogData = [
         image:blog1,
         date:'13th Sept 2025',
         tag:'Chair',
-        title:`Creating Your Dream Sanctuary: Inspirational Room Decor with Furnixar`,
+        title:`User 1`,
         desc:`Nibh purus integer elementum in. ipsuim for now dolor sit amet of this conqure varius . . .`
     },
     {
@@ -258,7 +258,7 @@ export const blogData = [
         image:blog2,
         date:'29th Dec 2025',
         tag:'Sofa',
-        title:`From Drab to Fab: Room Makeover Inspiration by Furnixar`,
+        title:`User 2`,
         desc:`Nibh purus integer elementum in. ipsuim for now dolor sit amet of this conqure varius . . .`
     },
     {
@@ -266,7 +266,7 @@ export const blogData = [
         image:blog3,
         date:'29th Nov 2025',
         tag:'Vases',
-        title:`Small Space, Big Style: Room Decor Solutions from Furnixar`,
+        title:`User 3`,
         desc:`Nibh purus integer elementum in. ipsuim for now dolor sit amet of this conqure varius . . .`
     },
     {
@@ -274,7 +274,7 @@ export const blogData = [
         image:blog4,
         date:'13th March 2025',
         tag:'Interior',
-        title:`Innovative Room Decor: Unleashing Creativity with Furnixar`,
+        title:`User 4`,
         desc:`Nibh purus integer elementum in. ipsuim for now dolor sit amet of this conqure varius . . .`
     },
     {
@@ -282,7 +282,7 @@ export const blogData = [
         image:blog5,
         date:'5th May 2025',
         tag:'Chair',
-        title:`Timeless Elegance: Classic Room Decor Ideas from Furnixar`,
+        title:`User 5`,
         desc:`Nibh purus integer elementum in. ipsuim for now dolor sit amet of this conqure varius . . .`
     },
     {
