@@ -1,4 +1,4 @@
-import { GoStarFill } from 'react-icons/go'
+
 import { LuEye,} from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
@@ -51,11 +51,12 @@ export default function LayoutOne({ item }: { item: Item }) {
                         <Link to={`/product-details/${item.id}`} className="text-underline">{item.name}</Link>
                     </h5>
                     <ul className="flex items-center gap-2 mt-1">
+                        {/* <li><GoStarFill className='text-yellow-500 size-4'/></li>
                         <li><GoStarFill className='text-yellow-500 size-4'/></li>
                         <li><GoStarFill className='text-yellow-500 size-4'/></li>
                         <li><GoStarFill className='text-yellow-500 size-4'/></li>
-                        <li><GoStarFill className='text-yellow-500 size-4'/></li>
-                        <li><GoStarFill className='text-slate-300 size-4'/></li>
+                        <li><GoStarFill className='text-slate-300 size-4'/></li> */}
+                        <li style={{color: "red"}}>Left products</li>
                         <li className="dark:text-gray-100">( 1,230 )</li>
                     </ul>
                 </div>
