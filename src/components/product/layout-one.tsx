@@ -16,7 +16,7 @@ export default function LayoutOne(props: Props) {
         <div className="group">
             <div className="relative overflow-hidden">
                 <Link to={`/product-details/${item._id}`}>
-                    <img className="w-full h-[400px] overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center bg-white" src={imagePath} alt="shop"/>
+                    <img className="w-full h-[450px] object-cover overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center bg-white" src={imagePath} alt="shop"/>
                 </Link>
                 {item.productDiscount && (
                     <div className="absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 bg-[#E13939] rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none">

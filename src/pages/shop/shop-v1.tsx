@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {   useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
@@ -8,17 +8,47 @@ import SelectOne from "../../components/product/select-one";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 
-import { productList } from "../../data/data";
-
 import Aos from "aos";
 import { LuEye } from "react-icons/lu";
 import { RiShoppingBag2Line } from "react-icons/ri";
+import { retrieveProducts } from "./selector";
+import { createSelector, Dispatch } from "@reduxjs/toolkit";
+import { Product, ProductInquiry } from "../../libs/types/product";
+import { setProducts } from "./slice";
+import { useDispatch, useSelector } from "react-redux";
+import ProductService from "../../services/ProductService";
+import { serverApi } from "../../libs/config";
+
+/**  REDUX SLICE & SELECTOR  **/
+const actionDispatch = (dispatch: Dispatch) => ({
+    setProducts: (data: Product[]) => dispatch(setProducts(data))
+});
+
+const productsRetriever = createSelector(
+    retrieveProducts,
+    (products) => ({products}),
+)
 
 export default function ShopV1() {
+const {setProducts} = actionDispatch(useDispatch());
+    const { products } = useSelector(productsRetriever);
+    const [ productSearch, setProductSearch ] = useState<ProductInquiry>({
+        page: 1,
+        limit: 16,
+        order: "createdAt",
+        search: " ",
+    });
 
     useEffect(()=>{
         Aos.init()
     })
+
+    useEffect(() => {
+        const product = new ProductService()
+        product.getProducts(productSearch)
+        .then((date) => setProducts(date))
+        .catch((err) => console.log(err))
+    }, [productSearch]);
 
 return (
     <>
@@ -64,19 +94,19 @@ return (
                 </div>
 
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 pt-8 md:pt-[50px]" data-aos="fade-up" data-aos-delay="300">
-                    {productList.map((item, index) => {
-                            // const imagePath = `${serverApi}/${item.productImages[0]}`
+                    {products.map((item, index) => {
+                            const imagePath = `${serverApi}/${item.productImages[0]}`
                         return(
                             <div className="group" key={index}>
                                         <div className="relative overflow-hidden">
-                                            <Link to={`/product-details/${item.id}`}>
-                                                <img className="w-full h-[400px] overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center bg-white" src={item.image} alt="shop"/>
+                                            <Link to={`/product-details/${item._id}`}>
+                                                <img className="w-full h-[450px] object-cover transition-transform duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center bg-white" src={imagePath} alt="shop"/>
                                             </Link>
-                                            {/* {item.productDiscount && (
+                                            {item.productDiscount && (
                                                 <div className="absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 bg-[#E13939] rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none">
                                                     {item.productDiscount}% OFF
                                                 </div>
-                                            )} */}
+                                            )}
                                             <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
                                                 <Link to="#" className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
                                                     <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
@@ -84,19 +114,19 @@ return (
                                                 </Link>
                                                 <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                                                     <LuEye className="dark:text-white h-[22px] w-[20px]"/>
-                                                    <span className="mt-1">{ item.price}</span>
+                                                    <span className="mt-1">{ item.productViews}</span>
                                                 </button>
                                             </div>
                                         </div>
                                         <div className="md:px-2 lg:px-4 xl:px-6 lg:pt-6 pt-5 flex gap-4 md:gap-5 flex-col">
-                                            <h4 className="font-medium leading-none dark:text-white text-lg">${item.price}</h4>
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">${item.productPrice}</h4>
                                             <div>
                                                 <h5 className="font-bold dark:text-white text-xl leading-[1.5]">
-                                                    <Link to={`/product-details/${item.id}`} className="text-underline">{item.name}</Link>
+                                                    <Link to={`/product-details/${item._id}`} className="text-underline">{item.productName}</Link>
                                                 </h5>
                                                 <ul className="flex items-center font-normal gap-2 mt-1">
                                                     <li style={{color: "red"}}>Left products</li>
-                                                    <li className="dark:text-gray-100">( {item.price} )</li>
+                                                    <li className="dark:text-gray-100">( {item.productLeftCount} )</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -116,5 +146,5 @@ return (
 
         <ScrollToTop/>
     </>
-  )
+    )
 }
