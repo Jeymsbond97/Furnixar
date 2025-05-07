@@ -8,7 +8,7 @@ import FooterOne from '../../components/footer/footer-one';
 import PartnerOne from '../../components/partner-one';
 import ScrollToTop from '../../components/scroll-to-top';
 
-import {categoryOne, featureOne, productList } from '../../data/data';
+import { featureOne, } from '../../data/data';
 import OwlCarousel from 'react-owl-carousel';
 
 import chair from '../../assets/img/svg/chair.svg'
@@ -22,8 +22,60 @@ import hand from '../../assets/img/svg/hand.svg'
 
 import AOS from 'aos';
 import BlogOne from '../../components/blog/blog-one';
+import { createSelector, Dispatch } from '@reduxjs/toolkit';
+import { Product } from '../../libs/types/product';
+import { setNewProducts, setTopProducts, setTopUsers } from '../slice';
+import { retrieveNewProducts, retrieveTopProducts } from '../selector';
+import { useDispatch, useSelector } from 'react-redux';
+import ProductService from '../../services/ProductService';
+import { Member } from '../../libs/types/member';
+import { serverApi } from '../../libs/config';
+
+
+
+// REDUX SLICE AND SELECTOR
+const actionDispatch = (dispatch: Dispatch) => ({
+    setTopProducts: (data: Product[]) => dispatch(setTopProducts(data)),
+    setNewProducts: (data: Product[]) => dispatch(setNewProducts(data)),
+    setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
+})
+
+const topProductsRetriever = createSelector(
+    retrieveTopProducts,
+    (topProducts) => ({topProducts})
+)
+
+const newProductsRetriever = createSelector(
+    retrieveNewProducts,
+    (newProducts) => ({newProducts})
+)
 
 function Index() {
+    const { setTopProducts, setNewProducts} = actionDispatch(useDispatch());
+    const { topProducts } = useSelector(topProductsRetriever);
+    const { newProducts } = useSelector(newProductsRetriever)
+
+    useEffect(() => {
+    const product = new ProductService();
+    product.getProducts({
+        page: 1,
+        limit: 8,
+        order: "productViews",
+    }).then((data) => {
+        setTopProducts(data);
+    }).catch((err) => console.log(err));
+
+    product.getProducts({
+        page: 1,
+        limit: 4,
+        order: "createdAt",
+    }).then((data) => {
+        setNewProducts(data);
+    }).catch((err) => console.log(err));
+    }, [])
+
+    console.log("topProducts=> ",topProducts)
+
     useEffect(() => {
         AOS.init();
     }, []);
@@ -57,14 +109,15 @@ return (
                 </div>
                 <div className="max-w-[1720px] mx-auto relative group" data-aos="fade-up" data-aos-delay="100">
                     <OwlCarousel autoplay={true} loop={true} margin={15} autoplayTimeout={5000} autoplaySpeed={2000} items={3} responsive={{0:{items:1}, 768:{items:2}, 991:{items:3} }} ref={carouselRef} className="owl-carousel hv1-pdct-ctgry-slider"> 
-                        {categoryOne.map((item,index)=>{
+                        {topProducts.map((item, index) => {
+                            const imagePath = `${serverApi}/${item.productImages[0]}`
                             return(
                                 <Link className="relative block" to="/product-category" key={index}>
-                                    <img className="w-full object-cover" src={item.image} alt="product"/>
+                                    <img className="w-full object-cover h-[500px]"  src={imagePath} alt="product"/>
                                     <div className="absolute bottom-7 left-0 px-5 transform w-full flex justify-start">
                                         <div className="p-[15px] bg-white dark:bg-title w-auto">
-                                            <span className="md:text-xl text-primary font-medium leading-none">{item.item}</span>
-                                            <h4 className="text-xl md:text-2xl mt-[10px] font-semibold leading-[1.5]">{item.name}</h4>
+                                            <span className="md:text-xl text-primary font-medium leading-none">Left { item.productLeftCount} products</span>
+                                            <h4 className="text-xl md:text-2xl mt-[10px] font-semibold leading-[1.5]">{item.productName}</h4>
                                         </div>
                                     </div>
                                 </Link>
@@ -95,7 +148,7 @@ return (
                     <p className="mt-3">Be the first to experience innovation with our latest arrivals. Stay ahead of the curve and discover what's new in style, technology, and more. </p>
                 </div>
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8" data-aos="fade-up" data-aos-delay="100">
-                    {productList.slice(0,4).map((item,index)=>{
+                    {newProducts.slice(0,4).map((item,index)=>{
                         return(
                             <LayoutOne item={item} key={index}/>
                         )

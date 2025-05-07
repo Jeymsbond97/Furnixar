@@ -8,7 +8,7 @@ export interface Product {
     productName: string;
     productPrice: number;
     productLeftCount: number;
-    productVolume: number;
+    productDiscount?: number;
     productDesc?: string;
     productImages: string[];
     productViews: number;
