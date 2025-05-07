@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
-import LayoutOne from "../../components/product/layout-one";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import SelectOne from "../../components/product/select-one";
@@ -12,6 +11,8 @@ import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import { productList } from "../../data/data";
 
 import Aos from "aos";
+import { LuEye } from "react-icons/lu";
+import { RiShoppingBag2Line } from "react-icons/ri";
 
 export default function ShopV1() {
 
@@ -63,9 +64,43 @@ return (
                 </div>
 
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 pt-8 md:pt-[50px]" data-aos="fade-up" data-aos-delay="300">
-                    {productList.map((item,index)=>{
+                    {productList.map((item, index) => {
+                            // const imagePath = `${serverApi}/${item.productImages[0]}`
                         return(
-                            <LayoutOne item={item} key={index}/>
+                            <div className="group" key={index}>
+                                        <div className="relative overflow-hidden">
+                                            <Link to={`/product-details/${item.id}`}>
+                                                <img className="w-full h-[400px] overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center bg-white" src={item.image} alt="shop"/>
+                                            </Link>
+                                            {/* {item.productDiscount && (
+                                                <div className="absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 bg-[#E13939] rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none">
+                                                    {item.productDiscount}% OFF
+                                                </div>
+                                            )} */}
+                                            <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
+                                                <Link to="#" className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
+                                                    <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
+                                                    <span className="mt-1">Add to Cart</span>
+                                                </Link>
+                                                <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
+                                                    <LuEye className="dark:text-white h-[22px] w-[20px]"/>
+                                                    <span className="mt-1">{ item.price}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="md:px-2 lg:px-4 xl:px-6 lg:pt-6 pt-5 flex gap-4 md:gap-5 flex-col">
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">${item.price}</h4>
+                                            <div>
+                                                <h5 className="font-bold dark:text-white text-xl leading-[1.5]">
+                                                    <Link to={`/product-details/${item.id}`} className="text-underline">{item.name}</Link>
+                                                </h5>
+                                                <ul className="flex items-center font-normal gap-2 mt-1">
+                                                    <li style={{color: "red"}}>Left products</li>
+                                                    <li className="dark:text-gray-100">( {item.price} )</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                         )
                     })}
                 </div>

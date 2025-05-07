@@ -5,8 +5,12 @@ import { Link } from 'react-router-dom'
 import { Product } from '../../libs/types/product'
 import { serverApi } from '../../libs/config'
 
+interface Props{
+    item: Product
+}
 
-export default function LayoutOne({ item }: { item: Product }) {
+export default function LayoutOne(props: Props) {
+    const { item } = props;
     const imagePath = `${serverApi}/${item.productImages[0]}`
     return (
         <div className="group">
