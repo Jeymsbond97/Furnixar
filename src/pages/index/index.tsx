@@ -25,11 +25,12 @@ import BlogOne from '../../components/blog/blog-one';
 import { createSelector, Dispatch } from '@reduxjs/toolkit';
 import { Product } from '../../libs/types/product';
 import { setNewProducts, setTopProducts, setTopUsers } from '../slice';
-import { retrieveNewProducts, retrieveTopProducts } from '../selector';
+import { retrieveNewProducts, retrieveTopProducts, retrieveTopUsers } from '../selector';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductService from '../../services/ProductService';
 import { Member } from '../../libs/types/member';
 import { serverApi } from '../../libs/config';
+import MemberService from '../../services/MemberService';
 
 
 
@@ -50,10 +51,16 @@ const newProductsRetriever = createSelector(
     (newProducts) => ({newProducts})
 )
 
+const topUsersRetriever = createSelector(
+    retrieveTopUsers,
+    (topUsers) => ({topUsers})
+)
+
 function Index() {
-    const { setTopProducts, setNewProducts} = actionDispatch(useDispatch());
+    const { setTopProducts, setTopUsers, setNewProducts} = actionDispatch(useDispatch());
     const { topProducts } = useSelector(topProductsRetriever);
-    const { newProducts } = useSelector(newProductsRetriever)
+    const { newProducts } = useSelector(newProductsRetriever);
+    const { topUsers } = useSelector(topUsersRetriever);
 
     useEffect(() => {
     const product = new ProductService();
@@ -72,6 +79,15 @@ function Index() {
     }).then((data) => {
         setNewProducts(data);
     }).catch((err) => console.log(err));
+
+    const member = new MemberService();
+    member.getTopUsers()
+        .then( (data) => {
+        setTopUsers(data)
+        }
+    ).catch(
+    (err) => console.log(err)
+    )
     }, [])
 
     console.log("topProducts=> ",topProducts)
@@ -148,7 +164,7 @@ return (
                     <p className="mt-3">Be the first to experience innovation with our latest arrivals. Stay ahead of the curve and discover what's new in style, technology, and more. </p>
                 </div>
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8" data-aos="fade-up" data-aos-delay="100">
-                    {newProducts.slice(0,4).map((item,index)=>{
+                    {newProducts.map((item,index)=>{
                         return(
                             <LayoutOne item={item} key={index}/>
                         )
@@ -206,7 +222,7 @@ return (
                         </p>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="100">
-                        <BlogOne/>
+                        <BlogOne topUsers={ topUsers} />
                     </div>
                 </div>
             </div>
