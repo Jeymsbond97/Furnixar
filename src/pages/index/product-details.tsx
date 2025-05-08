@@ -38,8 +38,8 @@ export default function ProductDetails() {
     },[])
 
     const imagePath1 = `${serverApi}/${data.productImages[0]}`;
-    const imagePath2 = `${serverApi}/${data.productImages[1]}`;
-    const imagePath3 = `${serverApi}/${data.productImages[2]}`;
+    // const imagePath2 = `${serverApi}/${data.productImages[1]}`;
+    // const imagePath3 = `${serverApi}/${data.productImages[2]}`;
     return (
     <>
         <NavbarOne/>

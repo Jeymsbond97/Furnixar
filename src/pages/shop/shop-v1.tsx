@@ -18,6 +18,7 @@ import { setProducts } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../services/ProductService";
 import { serverApi } from "../../libs/config";
+import { ProductCollection } from "../../libs/enums/product.enum";
 
 /**  REDUX SLICE & SELECTOR  **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -32,6 +33,8 @@ const productsRetriever = createSelector(
 export default function ShopV1() {
 const {setProducts} = actionDispatch(useDispatch());
     const { products } = useSelector(productsRetriever);
+    const [activeCollection, setActiveCollection] = useState<ProductCollection | null>(null);
+    const [searchText, setSearchText] = useState<string>("");
     const [ productSearch, setProductSearch ] = useState<ProductInquiry>({
         page: 1,
         limit: 16,
@@ -49,6 +52,28 @@ const {setProducts} = actionDispatch(useDispatch());
         .then((date) => setProducts(date))
         .catch((err) => console.log(err))
     }, [productSearch]);
+
+    useEffect(() => {
+        if(searchText === ""){
+            productSearch.search = "";
+            setProductSearch({...productSearch});
+        }
+    }, [searchText])
+
+
+
+    /**  HANDLERS **/
+    const searchCollectionHandler = (collection: ProductCollection) => {
+        productSearch.page = 1;
+        productSearch.productCollection = collection;
+        setProductSearch({ ...productSearch });
+        setActiveCollection(collection)
+    };
+
+    const searchProductHandler = () =>{
+        productSearch.search = searchText;
+        setProductSearch({...productSearch})
+    };
 
 return (
     <>
@@ -71,24 +96,49 @@ return (
                     <div>
                         <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Choose Category</h4>
                         <div className="flex flex-wrap gap-[10px] md:gap-[15px]">
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Sofa & Chair"><span>Sofa & Chair</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Lamp & Vase"><span>Lamp & Vase</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Table"><span>Table</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Wood Design"><span>Wood Design</span></Link>
+                            <Link onClick={() => searchCollectionHandler(ProductCollection.SOFA)}
+                                className={`btn btn-theme-outline btn-sm shop1-button
+                                ${activeCollection === ProductCollection.SOFA ? 'bg-primary' : ''}`} to={'#'}
+                                data-text="Sofa & Chair">
+                                <span>Sofa & Chair</span>
+                            </Link>
+                            <Link onClick={() => searchCollectionHandler(ProductCollection.LAMP)}
+                                className={`btn btn-theme-outline btn-sm shop1-button
+                                ${activeCollection === ProductCollection.LAMP? 'bg-primary' : ''}`}
+                                data-text="Lamp & Vase" to={'#'}>
+                                <span>Lamp & Vase</span>
+                            </Link>
+                            <Link onClick={() => searchCollectionHandler(ProductCollection.TABLE)}
+                                className={`btn btn-theme-outline btn-sm shop1-button
+                                ${activeCollection === ProductCollection.TABLE ? 'bg-primary' : ''}`}
+                                data-text="Table" to={'#'}>
+                                <span>Table</span>
+                            </Link>
+                            <Link onClick={() => searchCollectionHandler(ProductCollection.WOOD)}
+                                className={`btn btn-theme-outline btn-sm shop1-button
+                                ${activeCollection === ProductCollection.WOOD ? 'bg-primary' : ''}`}
+                                data-text="Wood Design" to={'#'}>
+                                <span>Wood Design</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="max-w-[562px] w-full grid sm:grid-cols-2 gap-8 md:gap-12">
                         <div>
                             <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Search</h4>
                             <input
-                                    type="text"
-                                    placeholder="Search products..."
-                                    className="w-full py-[14px] px-5 border border-title dark:border-white-light text-title dark:text-white font-medium leading-none outline-none bg-transparent placeholder:text-title dark:placeholder:text-white"
+                                type="text"
+                                placeholder="Search products..."
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter") searchProductHandler();
+                                }}
+                                className="w-full py-[14px] px-5 border border-title dark:border-white-light text-title dark:text-white font-medium leading-none outline-none bg-transparent placeholder:text-title dark:placeholder:text-white"
                                 />
                         </div>
                         <div>
                             <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Sort By Options</h4>
-                            <SelectOne/>
+                            <SelectOne setProductSearch={setProductSearch} />
                         </div>
                     </div>
                 </div>

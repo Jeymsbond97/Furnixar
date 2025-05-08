@@ -1,8 +1,6 @@
 import NavbarOne from "../../components/navbar/navbar-one";
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import { Link } from "react-router-dom";
-import { productList } from "../../data/data";
-import LayoutOne from "../../components/product/layout-one";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useEffect } from "react";
@@ -32,11 +30,6 @@ export default function ProductCategory() {
         <div className="container-fluid">
             <div data-aos="fade-up" data-aos-delay="200">
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                  {productList.map((item,index)=>{
-                    return(
-                      <LayoutOne item={item} key={index}/>
-                    )
-                  })}
                 </div>
                 <div className="mt-10 md:mt-12 flex items-center justify-center gap-[10px]">
                     <Link to="#" className="text-title dark:text-white text-xl"><span className="lnr lnr-arrow-left"></span></Link>

@@ -10,18 +10,18 @@ import IncreDre from '../incre-dre';
 
 
 export default function NavMenu() {
-    const authMember = true;
+    const authMember = false;
     const [cart, setCart] = useState<boolean>(false)
 return (
     <div className="flex items-center gap-4 sm:gap-6">
         <Link to={authMember ? "/login" : "/register"} className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block"> {authMember ? "Login" : "Signup"}</Link>
-        <button className="relative hdr_cart_btn" onClick={()=> setCart(!cart)}>
+        <button className="relative hdr_cart_btn" onClick={()=> setCart(!cart)} >
             <span className="absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">1</span>
             <RiShoppingBag4Line className="text-title dark:text-white size-6"/>
         </button>
 
         <div className={`hdr_cart_popup w-80 md:w-96 absolute z-50 top-full right-0 sm:right-10 xl:right-0 bg-white dark:bg-title p-5 md:p-[30px] border border-primary ${cart ? '' : 'hidden'}`}>
-            <h4 className="font-medium leading-none mb-4 text-xl md:text-2xl">Cart List</h4>
+            <h4 className="font-medium leading-none mb-4 text-xl md:text-2xl">Cart List X</h4>
             <div>
                 <div className="hdr-cart-item">
                     {cartList.map((item,index)=>{
