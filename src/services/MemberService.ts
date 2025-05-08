@@ -40,9 +40,7 @@ class MemberService {
         try{
             const url = this.path + "/member/login";
             const result = await axios.post(url, input, {withCredentials: true});
-            console.log("login:", result);
             const member : Member = result.data.member;
-            console.log("Member =>:", member);
             localStorage.setItem("memberData", JSON.stringify(member));
             return member;
         }catch(err){

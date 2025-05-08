@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
@@ -8,6 +8,11 @@ import ScrollToTop from "../../components/scroll-to-top";
 import bg from '../../assets/img/bg/login.jpg'
 import Aos from "aos";
 import { CartItem } from "../../libs/types/search";
+import { T } from "../../libs/types/common";
+import { sweetErrorHandling } from "../../libs/sweetAlert";
+import MemberService from "../../services/MemberService";
+import { Messages } from "../../libs/config";
+import { LoginInput } from "../../libs/types/member";
 
 interface LoginProps {
     cartItems: CartItem[];
@@ -18,10 +23,53 @@ interface LoginProps {
 }
 
 export default function Login(props: LoginProps) {
-    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+const [memberNick, setMemberNick] = useState<string>("");
+const [memberPassword, setMemberPassword] = useState<string>("");
     useEffect(()=>{
         Aos.init()
     })
+
+    /** HANDLERS **/
+
+const handleUsername = (e: T) => {
+    setMemberNick(e.target.value);
+};
+
+const handlePassword = (e: T) => {
+setMemberPassword(e.target.value);
+    };
+
+
+const handlePasswordKeyDown = (e: T) => {
+    // Login request
+    if (e.key === "Enter") {
+        handleLoginRequest().then();
+        }
+    }
+
+const handleLoginRequest = async () =>{
+    try{
+        const isFullFill =
+            memberNick !== "" && memberPassword !== "";
+            if(!isFullFill) throw new Error(Messages.error3);
+            const loginInput: LoginInput = {
+                memberNick: memberNick,
+                memberPassword: memberPassword,
+            };
+
+            const member = new MemberService();
+            const result = await member.login(loginInput);
+            console.log(result);
+            // Saving Authenticated users
+    }
+    catch(err){
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
+    };
+
+
 return (
     <>
         <NavbarOne
@@ -42,12 +90,19 @@ return (
                     <h2 className="leading-none" data-aos="fade-up" data-aos-delay="100">Welcome back !</h2>
                     <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">Buy & sale your exclusive product only on Furnixar</p>
                     <div className="mt-7" data-aos="fade-up" data-aos-delay="300">
-                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Email</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
+                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Name</label>
+                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300"
+                            type="text"
+                            onChange={handleUsername}
+                            placeholder="Enter your nick name" />
                     </div>
                     <div className="mt-5" data-aos="fade-up" data-aos-delay="400">
                         <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Password</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300 placeholder:text-xl placeholder:transform placeholder:translate-y-[10px]" type="password" placeholder="* * * * * * * *"/>
+                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300 placeholder:text-xl placeholder:transform placeholder:translate-y-[10px]"
+                            type="password"
+                            onChange={handlePassword}
+                            onKeyDown={handlePasswordKeyDown}
+                            placeholder="* * * * * * * *" />
                     </div>
                     <div className="mt-7" data-aos="fade-up" data-aos-delay="500">
                         <label className="flex items-center gap-2 iam-agree">
@@ -61,7 +116,7 @@ return (
                         </label>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="600">
-                        <Link to="#" className="btn btn-theme-solid mt-[15px]" data-text="Login"><span>Login</span></Link>
+                        <Link to="/" onClick={handleLoginRequest} className="btn btn-theme-solid mt-[15px]" data-text="Login"><span>Login</span></Link>
                     </div>
                     <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="700">Don't have an account yet? <Link to="/register" className="text-primary font-medium ml-1 inline-block">Register</Link></p>
                 </div>
