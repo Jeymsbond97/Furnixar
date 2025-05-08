@@ -60,7 +60,12 @@ function App() {
         onRemove={onRemove}
         onDeleteAll={onDeleteAll}
         onAdd={onAdd}/>} />
-          <Route path="/error" element={<Error/>} />
+        <Route path="/error" element={<Error
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
         <Route path="/my-profile" element={<MyProfile
         cartItems={cartItems}
         onDelete={onDelete}

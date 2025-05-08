@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Logout } from "@mui/icons-material";
 
 
 import { LuMinus, LuPlus, LuX} from "react-icons/lu";
 import {RiShoppingBag4Line} from 'react-icons/ri'
-import { Stack } from '@mui/material';
+import { Button, ListItemIcon, Menu, MenuItem, Stack } from '@mui/material';
 import { CartItem } from '../../libs/types/search';
-import { serverApi } from '../../libs/config';
+import { Messages, serverApi } from '../../libs/config';
+import { useGlobals } from '../../hooks/useGlobal';
+import MemberService from '../../services/MemberService';
+import { sweetErrorHandling, sweetTopSuccessAlert } from '../../libs/sweetAlert';
 
 
 interface BasketProps {
@@ -19,7 +24,7 @@ interface BasketProps {
 }
 
 export default function NavMenu(props: BasketProps) {
-const authMember = false;
+const { authMember, setAuthMember} = useGlobals();
 const {cartItems, onAdd, onRemove, onDeleteAll, onDelete} = props
 const [cart, setCart] = useState<boolean>(false)
 const itemsPrice: number= cartItems.reduce(
@@ -52,17 +57,86 @@ useEffect(() => {
     };
 }, []);
 
+const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+const handleLogoutClick = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
+};
+
+const handleCloseLogout = () => setAnchorEl(null);
+
+    /**  HANDLERS **/
+    const handleLogoutRequest = async () => {
+        try{
+            const member = new MemberService();
+            await member.logout();
+            await sweetTopSuccessAlert("success", 700);
+            setAuthMember(null);
+        }catch(err){
+            console.log(err);
+            sweetErrorHandling(Messages.error1);
+        }
+    }
 
 
 
 
 return (
     <div className="flex items-center gap-4 sm:gap-6">
-        <Link to={authMember ? "/login" : "/register"} className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block"> {authMember ? "Login" : "Signup"}</Link>
         <button className="relative hdr_cart_btn" onClick={()=> setCart(!cart)} >
             <span className="absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">{ cartItems.length}</span>
             <RiShoppingBag4Line className="text-title dark:text-white size-6"/>
         </button>
+        {authMember ? (
+        <Button  onClick={handleLogoutClick} className="hidden lg:block ml-[30px]">
+            <AccountCircleIcon sx={{ fontSize: 45, color: "#1976d2", transform: "translateY(-2px)" }} />
+        </Button>
+        ) : (
+            <Link to="/login" className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary ml-[30px] hidden lg:block">
+                Login
+            </Link>
+        )}
+        <Menu
+            id="account-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseLogout}
+            onClick={handleCloseLogout}
+            PaperProps={{
+                elevation: 0,
+                sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                            },
+                    '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                        },
+                    },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        >
+                <MenuItem onClick={handleLogoutRequest}>
+                    <ListItemIcon>
+                        <Logout fontSize="small" style={{ color: 'blue' }} />
+                    </ListItemIcon>
+                        Logout
+                    </MenuItem>
+        </Menu>
 
         <div ref={cartRef} className={`hdr_cart_popup w-80 md:w-96 absolute z-50 top-full right-0 sm:right-10 xl:right-0 bg-white dark:bg-title p-5 md:p-[30px] border border-primary ${cart ? '' : 'hidden'}`}>
             <h4 className="font-medium leading-none mb-4 text-xl md:text-2xl">

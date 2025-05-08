@@ -88,6 +88,11 @@ export default function ComingSoon() {
                             <p className="texttext-sm sm:text-lg md:text-xl leading-none mt-[10px]">Seconds</p>
                         </div>
                     </div>
+                    <div data-aos="fade-up" data-aos-delay="100" className="mt-16">
+                        <Link className="btn btn-outline mt-8 md:mt-8" to="/" data-text="Go Back To Home">
+                            <span>Go Back To Home</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

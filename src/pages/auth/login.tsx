@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
 import FooterOne from "../../components/footer/footer-one";
@@ -13,6 +13,7 @@ import { sweetErrorHandling } from "../../libs/sweetAlert";
 import MemberService from "../../services/MemberService";
 import { Messages } from "../../libs/config";
 import { LoginInput } from "../../libs/types/member";
+import { useGlobals } from "../../hooks/useGlobal";
 
 interface LoginProps {
     cartItems: CartItem[];
@@ -23,9 +24,12 @@ interface LoginProps {
 }
 
 export default function Login(props: LoginProps) {
-const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
-const [memberNick, setMemberNick] = useState<string>("");
-const [memberPassword, setMemberPassword] = useState<string>("");
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+    const [memberNick, setMemberNick] = useState<string>("");
+    const [memberPassword, setMemberPassword] = useState<string>("");
+    const navigate = useNavigate()
+    const { setAuthMember } = useGlobals();
+
     useEffect(()=>{
         Aos.init()
     })
@@ -58,10 +62,10 @@ const handleLoginRequest = async () =>{
                 memberPassword: memberPassword,
             };
 
-            const member = new MemberService();
-            const result = await member.login(loginInput);
-            console.log(result);
-            // Saving Authenticated users
+        const member = new MemberService();
+        const result = await member.login(loginInput);
+        setAuthMember(result);
+        navigate('/')
     }
     catch(err){
             console.log(err);

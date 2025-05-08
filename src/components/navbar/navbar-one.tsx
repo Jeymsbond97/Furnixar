@@ -3,6 +3,7 @@ import logo from '../../assets/img/svg/logo.svg'
 import { Link } from 'react-router-dom'
 import NavMenu from './nav-menu'
 import { CartItem } from '../../libs/types/search';
+import { useGlobals } from '../../hooks/useGlobal';
 
 interface HomeNavbarOneProps {
     cartItems: CartItem[];
@@ -19,8 +20,7 @@ export default function NavbarOne(props: HomeNavbarOneProps) {
     console.log(setToggle)
     const [current , setCurrent] = useState<string>('')
     const [scroll, setScroll] = useState<boolean>(false)
-    const authMember = true;
-
+    const { authMember } = useGlobals()
         useEffect(()=>{
             window.scrollTo(0,0)
             setCurrent(window.location.pathname)
@@ -57,7 +57,6 @@ export default function NavbarOne(props: HomeNavbarOneProps) {
                         <li className={`relative ${['/about',].includes(current) ? 'active' : ''}`}>
                             <Link to="/about">About</Link>
                         </li>
-                         {/* Faqat authMember true bo'lsa Carts va Profile ko'rinadi */}
                         {authMember && (
                                 <>
                                     <li className={`relative ${current === '/cart' ? 'active' : ''}`}>

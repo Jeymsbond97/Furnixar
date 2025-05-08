@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import bg from '../../assets/img/bg/register.jpg'
 
@@ -14,6 +14,7 @@ import { MemberInput } from "../../libs/types/member";
 import { Messages } from "../../libs/config";
 import MemberService from "../../services/MemberService";
 import { sweetErrorHandling } from "../../libs/sweetAlert";
+import { useGlobals } from "../../hooks/useGlobal";
 
 
 interface RegisterProps {
@@ -29,6 +30,8 @@ export default function Register(props: RegisterProps) {
     const [memberNick, setMemberNick] = useState<string>("");
     const [memberPhone, setMemberPhone] = useState<string>("");
     const [memberPassword, setMemberPassword] = useState<string>("");
+    const navigate = useNavigate();
+    const { setAuthMember } = useGlobals();
 
     useEffect(()=>{
         Aos.init()
@@ -69,7 +72,8 @@ const handleSignupRequest = async () =>{
         const member = new MemberService();
         const result = await member.signup(signupInput);
         // Saving Authenticated users
-        console.log(result)
+        setAuthMember(result);
+        navigate("/");
     }
     catch(err){
         console.log(err);

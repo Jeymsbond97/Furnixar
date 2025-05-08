@@ -8,14 +8,29 @@ import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useEffect } from "react";
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
 
-export default function Error() {
+interface ErrorProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+export default function Error(props: ErrorProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
     })
   return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}/>
 
         <div className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
             <div className="text-center w-full">
