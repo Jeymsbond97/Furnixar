@@ -6,15 +6,18 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { store } from './store.ts';
 import React from 'react';
+import { BasketProvider } from './context/BasketContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <CssBaseline>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-      </CssBaseline>
-    </Provider>
+    <BasketProvider>
+      <Provider store={store}>
+        <CssBaseline>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+        </CssBaseline>
+      </Provider>
+    </BasketProvider>
   </React.StrictMode>
 )

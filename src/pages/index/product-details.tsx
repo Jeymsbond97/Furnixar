@@ -19,13 +19,23 @@ import { retrieveProducts } from '../shop/selector';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import { serverApi } from '../../libs/config';
+import { CartItem } from '../../libs/types/search';
 
 const productsRetriever = createSelector(
     retrieveProducts,
     (products) => ({ products })
 );
 
-export default function ProductDetails() {
+interface ProductProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+export default function ProductDetails(props: ProductProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd} = props;
     const [activeImage, setActiveImage] = useState<number>(1)
     const { id } = useParams();
     const { products } = useSelector(productsRetriever);
@@ -42,7 +52,13 @@ export default function ProductDetails() {
     // const imagePath3 = `${serverApi}/${data.productImages[2]}`;
     return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />
         <div className="bg-[#F8F5F0] dark:bg-dark-secondary py-5 md:py-[30px]">
             <div className="container-fluid">
                 <ul className="flex items-center gap-[10px] text-base md:text-lg leading-none font-normal text-title dark:text-white max-w-[1720px] mx-auto flex-wrap">

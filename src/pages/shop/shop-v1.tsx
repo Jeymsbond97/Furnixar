@@ -32,11 +32,15 @@ const productsRetriever = createSelector(
 )
 
 interface ProductsProps {
-    onAdd: (item: CartItem) => void
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
 }
 
 export default function ShopV1(props: ProductsProps) {
-const {onAdd} = props;
+const { cartItems, onDelete, onRemove, onDeleteAll, onAdd} = props;
 const {setProducts} = actionDispatch(useDispatch());
     const { products } = useSelector(productsRetriever);
     const [activeCollection, setActiveCollection] = useState<ProductCollection | null>(null);
@@ -83,7 +87,13 @@ const {setProducts} = actionDispatch(useDispatch());
 
 return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />
 
         <div className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
             <div className="text-center w-full">
@@ -164,10 +174,8 @@ return (
                                                 </div>
                                             )}
                                             <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
-                                                <Link to="#" className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
-                                                    <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
-                                                    <span className="mt-1" onClick={(e)=> {
-                                                onAdd({
+                                                <button  onClick={(e)=> {
+                                                    onAdd({
                                                     _id: item._id,
                                                     quantity: 1,
                                                     name: item.productName,
@@ -175,10 +183,12 @@ return (
                                                     image: item.productImages[0],
                                                 })
                                                 e.stopPropagation();
-                                            }} >
+                                            }} className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
+                                                    <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
+                                                    <span className="mt-1">
                                                         Add to Cart
                                                     </span>
-                                                </Link>
+                                                </button>
                                                 <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                                                     <LuEye className="dark:text-white h-[22px] w-[20px]"/>
                                                     <span className="mt-1">{ item.productViews}</span>

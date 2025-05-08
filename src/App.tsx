@@ -26,12 +26,19 @@ import ProductCategory from './pages/shop/product-category'
 import useBasket from './hooks/useBasket'
 
 function App() {
-  const { onAdd} = useBasket();
+  const { onAdd, onDelete, onDeleteAll, cartItems, onRemove} = useBasket();
 
   return (
     <>
     <Routes>
-          <Route path="/" element={<Index/>} />
+        <Route path="/" element={
+          <Index
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />} />
           <Route path="/about" element={<About/>} />
           <Route path="/team" element={<Team/>} />
           <Route path="/our-clients" element={<OurClients/>} />
@@ -49,9 +56,21 @@ function App() {
           <Route path="/payment-success" element={<PaymentSuccess/>} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/checkout" element={<Checkout/>} />
-        <Route path="/shop-v1" element={<ShopV1 onAdd = { onAdd} />} />
-          <Route path="/product-details" element={<ProductDetails/>} />
-          <Route path="/product-details/:id" element={<ProductDetails/>} />
+        <Route path="/shop-v1" element={<ShopV1  cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd} />} />
+          <Route path="/product-details" element={<ProductDetails  cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}/>} />
+          <Route path="/product-details/:id" element={<ProductDetails  cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}/>} />
           <Route path="/contact" element={<Contact/>} />
           <Route path="/product-category" element={<ProductCategory/>} />
     </Routes>

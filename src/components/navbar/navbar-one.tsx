@@ -2,10 +2,18 @@ import { useEffect, useState } from 'react'
 import logo from '../../assets/img/svg/logo.svg'
 import { Link } from 'react-router-dom'
 import NavMenu from './nav-menu'
+import { CartItem } from '../../libs/types/search';
 
+interface HomeNavbarOneProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
 
-
-export default function NavbarOne() {
+export default function NavbarOne(props: HomeNavbarOneProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd} = props;
     const [toggle, setToggle] = useState<boolean>(false)
     //TODO: console delete
     console.log(setToggle)
@@ -66,7 +74,13 @@ export default function NavbarOne() {
                     </ul>
                 </div>
 
-                <NavMenu/>
+                <NavMenu
+                    cartItems={cartItems}
+                    onDelete={onDelete}
+                    onRemove={onRemove}
+                    onDeleteAll={onDeleteAll}
+                    onAdd={onAdd}
+                />
             </div>
         </div>
     </div>

@@ -5,14 +5,22 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { LuMinus, LuPlus, LuX} from "react-icons/lu";
 import {RiShoppingBag4Line} from 'react-icons/ri'
-import useBasket from '../../hooks/useBasket';
 import { Stack } from '@mui/material';
 import { CartItem } from '../../libs/types/search';
 import { serverApi } from '../../libs/config';
 
-export default function NavMenu() {
+
+interface BasketProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+export default function NavMenu(props: BasketProps) {
 const authMember = false;
-const {cartItems} = useBasket()
+const {cartItems, onAdd, onRemove, onDeleteAll, onDelete} = props
 const [cart, setCart] = useState<boolean>(false)
 const [count, setCount] = useState<number>(1)
 
@@ -76,30 +84,30 @@ return (
                                     <div className="flex items-center gap-2">
                                         <span className="text-[14px] md:text-[15px] leading-none block">{item.name}</span>
                                         <span className="w-[6px] h-[6px] rounded-full bg-primary"></span>
-                                        <span className="text-[14px] md:text-[15px] leading-none block">${item.price}</span>
+                                        <span className="text-[14px] md:text-[15px] leading-none block">${item.price * item.quantity}</span>
                                     </div>
                                     <h6 className="text-base md:text-lg font-semibold !leading-none mt-[10px] mb-4">
                                         <Link to="/product-details">{ item.name}</Link>
                                     </h6>
                                     <div className="inc-dec flex items-center gap-2">
                                         <div className="dec w-6 h-6 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
-                                        <LuMinus className="text-title dark:text-white" onClick={() =>setCount(count > 0 ? count - 1 : 0)}/>
+                                        <LuMinus className="text-title dark:text-white" onClick={() =>onRemove(item)}/>
                                         </div>
                                         <input className="w-6 h-auto outline-none bg-transparent text-base mg:text-lg leading-none text-title dark:text-white text-center" type="text" value={count}/>
                                         <div className="inc w-6 h-6 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
-                                        <LuPlus className="text-title dark:text-white" onClick={() =>setCount(count+ 1)}/>
+                                        <LuPlus className="text-title dark:text-white" onClick={() =>onAdd(item)}/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="wishList_item_close absolute top-0 right-0 w-6 h-6 flex items-center justify-center bg-title dark:bg-white bg-opacity-10 dark:bg-opacity-10 group hover:bg-primary dark:hover:bg-primary opacity-0 group-hover:opacity-100 text-title dark:text-white duration-300 hover:text-white">
-                                    <LuX className="text-title dark:text-white duration-300 group-hover:text-white"/>
+                                    <LuX onClick={() => onDelete(item)} className="text-title dark:text-white duration-300 group-hover:text-white"/>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
                 <div className="pt-5 md:pt-[30px] mt-5 md:mt-[30px] border-t border-bdr-clr dark:border-bdr-clr-drk">
-                    <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : $870</h4>
+                    <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ${ }</h4>
                     <div className="grid grid-cols-2 gap-4">
                         <Link to="/cart" className="btn btn-outline btn-sm" data-text="View Cart">
                             <span>View Cart</span>

@@ -37,6 +37,7 @@ import { Member } from '../../libs/types/member';
 import { serverApi } from '../../libs/config';
 import MemberService from '../../services/MemberService';
 import './carousel.css'
+import { CartItem } from '../../libs/types/search';
 
 
 
@@ -62,7 +63,17 @@ const topUsersRetriever = createSelector(
     (topUsers) => ({topUsers})
 )
 
-function Index() {
+interface HomeNavbarProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+
+function Index(props: HomeNavbarProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd} = props;
     const { setTopProducts, setTopUsers, setNewProducts} = actionDispatch(useDispatch());
     const { topProducts } = useSelector(topProductsRetriever);
     const { newProducts } = useSelector(newProductsRetriever);
@@ -103,7 +114,13 @@ function Index() {
     }, []);
 return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />
         <SliderOne/>
 
         <div className="s-py-100-50 overflow-hidden">
