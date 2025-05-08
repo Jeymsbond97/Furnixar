@@ -7,16 +7,19 @@ import { Provider } from 'react-redux';
 import { store } from './store.ts';
 import React from 'react';
 import { BasketProvider } from './context/BasketContext.tsx';
+import ContextProvider from './context/ContextProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BasketProvider>
       <Provider store={store}>
-        <CssBaseline>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-        </CssBaseline>
+        <ContextProvider>
+          <CssBaseline>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+          </CssBaseline>
+        </ContextProvider>
       </Provider>
     </BasketProvider>
   </React.StrictMode>

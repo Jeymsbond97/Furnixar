@@ -8,18 +8,32 @@ import FaqThree from "../../components/faq/faq-three";
 import FaqFour from "../../components/faq/faq-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
-
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
 
-export default function Faq() {
+interface FaqProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+
+export default function Faq(props: FaqProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
     })
-  return (
+return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}/>
 
         <div className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
             <div className="text-center w-full">

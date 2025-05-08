@@ -8,15 +8,31 @@ import ScrollToTop from "../../components/scroll-to-top";
 
 import { partnerDataTwo } from "../../data/data";
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
 
-export default function OurClients() {
+interface OurClientProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+
+export default function OurClients(props: OurClientProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
     })
 
-  return (
+return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}/>
 
         <div className="flex items-center gap-4 flex-wrap mt-5 md:mt-7 bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
             <div className="text-center w-full">

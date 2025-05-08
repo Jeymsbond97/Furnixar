@@ -17,14 +17,20 @@ import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
 import OwlCarousel from "react-owl-carousel";
-
 import { featureOne } from "../../data/data";
-
-// import '../../../node_modules/react-modal-video/css/modal-video.css'
-
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
 
-export default function About() {
+
+interface AboutProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+export default function About(props: AboutProps) {
+const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
 
     const options ={
         items:1,
@@ -40,7 +46,13 @@ export default function About() {
 
 return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd} />
+
         <div className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style={{backgroundImage:`url(${bg})`}}>
             <div className="text-center w-full">
                 <h2 className="text-white text-8 md:text-[40px] font-normal leading-none text-center">About Us</h2>

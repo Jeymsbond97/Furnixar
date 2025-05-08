@@ -22,7 +22,6 @@ import Checkout from './pages/shop/checkout'
 import ShopV1 from './pages/shop/shop-v1'
 import ProductDetails from './pages/index/product-details'
 import Contact from './pages/inner-pages/contact'
-import ProductCategory from './pages/shop/product-category'
 import useBasket from './hooks/useBasket'
 
 function App() {
@@ -31,15 +30,55 @@ function App() {
   return (
     <>
     <Routes>
-          <Route path="/about" element={<About/>} />
-          <Route path="/team" element={<Team/>} />
-          <Route path="/our-clients" element={<OurClients/>} />
-          <Route path="/faq" element={<Faq/>} />
-          <Route path="/terms-and-conditions" element={<TermsAndConditions/>} />
+        <Route path="/about" element={<About
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/team" element={<Team
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/our-clients" element={<OurClients
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/faq" element={<Faq
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
           <Route path="/error" element={<Error/>} />
-          <Route path="/my-profile" element={<MyProfile/>} />
-          <Route path="/my-account" element={<MyAccount/>} />
-          <Route path="/edit-account" element={<EditAccount/>} />
+        <Route path="/my-profile" element={<MyProfile
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/my-account" element={<MyAccount
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/edit-account" element={<EditAccount
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
         <Route path="/login" element={<Login
         onDelete={onDelete}
         onRemove={onRemove}
@@ -55,11 +94,36 @@ function App() {
         cartItems={cartItems}
         />} />
           <Route path="/coming-soon" element={<ComingSoon/>} />
-          <Route path="/payment-method" element={<PaymentMethod/>} />
-          <Route path="/payment-confirmation" element={<PaymentConfirmation/>} />
-          <Route path="/payment-success" element={<PaymentSuccess/>} />
-          <Route path="/cart" element={<Cart/>} />
-          <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/payment-method" element={<PaymentMethod
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/payment-confirmation" element={<PaymentConfirmation
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/payment-success" element={<PaymentSuccess
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/cart" element={<Cart
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
+        <Route path="/checkout" element={<Checkout
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
         <Route path="/shop-v1" element={<ShopV1  cartItems={cartItems}
             onDelete={onDelete}
             onRemove={onRemove}
@@ -77,8 +141,12 @@ function App() {
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
             onAdd={onAdd}/>} />
-          <Route path="/contact" element={<Contact/>} />
-        <Route path="/product-category" element={<ProductCategory />} />
+        <Route path="/contact" element={<Contact
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}/>} />
         <Route path="/" element={
           <Index
             cartItems={cartItems}
