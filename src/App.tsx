@@ -23,8 +23,10 @@ import ShopV1 from './pages/shop/shop-v1'
 import ProductDetails from './pages/index/product-details'
 import Contact from './pages/inner-pages/contact'
 import ProductCategory from './pages/shop/product-category'
+import useBasket from './hooks/useBasket'
 
 function App() {
+  const { onAdd} = useBasket();
 
   return (
     <>
@@ -47,7 +49,7 @@ function App() {
           <Route path="/payment-success" element={<PaymentSuccess/>} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/checkout" element={<Checkout/>} />
-          <Route path="/shop-v1" element={<ShopV1/>} />
+        <Route path="/shop-v1" element={<ShopV1 onAdd = { onAdd} />} />
           <Route path="/product-details" element={<ProductDetails/>} />
           <Route path="/product-details/:id" element={<ProductDetails/>} />
           <Route path="/contact" element={<Contact/>} />

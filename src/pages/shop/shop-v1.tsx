@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../services/ProductService";
 import { serverApi } from "../../libs/config";
 import { ProductCollection } from "../../libs/enums/product.enum";
+import { CartItem } from "../../libs/types/search";
 
 /**  REDUX SLICE & SELECTOR  **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -30,7 +31,12 @@ const productsRetriever = createSelector(
     (products) => ({products}),
 )
 
-export default function ShopV1() {
+interface ProductsProps {
+    onAdd: (item: CartItem) => void
+}
+
+export default function ShopV1(props: ProductsProps) {
+const {onAdd} = props;
 const {setProducts} = actionDispatch(useDispatch());
     const { products } = useSelector(productsRetriever);
     const [activeCollection, setActiveCollection] = useState<ProductCollection | null>(null);
@@ -160,7 +166,18 @@ return (
                                             <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
                                                 <Link to="#" className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
                                                     <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
-                                                    <span className="mt-1">Add to Cart</span>
+                                                    <span className="mt-1" onClick={(e)=> {
+                                                onAdd({
+                                                    _id: item._id,
+                                                    quantity: 1,
+                                                    name: item.productName,
+                                                    price: item.productPrice,
+                                                    image: item.productImages[0],
+                                                })
+                                                e.stopPropagation();
+                                            }} >
+                                                        Add to Cart
+                                                    </span>
                                                 </Link>
                                                 <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                                                     <LuEye className="dark:text-white h-[22px] w-[20px]"/>
