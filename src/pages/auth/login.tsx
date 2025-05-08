@@ -6,16 +6,31 @@ import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
 import bg from '../../assets/img/bg/login.jpg'
-
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
 
-export default function Login() {
+interface LoginProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+export default function Login(props: LoginProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
     })
 return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+        cartItems={cartItems}
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}
+        />
 
         <div className="flex">
             <div className="w-1/2 hidden md:block lg:flex-1">

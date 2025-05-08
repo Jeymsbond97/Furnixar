@@ -31,14 +31,6 @@ function App() {
   return (
     <>
     <Routes>
-        <Route path="/" element={
-          <Index
-            cartItems={cartItems}
-            onDelete={onDelete}
-            onRemove={onRemove}
-            onDeleteAll={onDeleteAll}
-            onAdd={onAdd}
-        />} />
           <Route path="/about" element={<About/>} />
           <Route path="/team" element={<Team/>} />
           <Route path="/our-clients" element={<OurClients/>} />
@@ -48,8 +40,20 @@ function App() {
           <Route path="/my-profile" element={<MyProfile/>} />
           <Route path="/my-account" element={<MyAccount/>} />
           <Route path="/edit-account" element={<EditAccount/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
+        <Route path="/login" element={<Login
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}
+        cartItems={cartItems}
+        />} />
+        <Route path="/register" element={<Register
+        onDelete={onDelete}
+        onRemove={onRemove}
+        onDeleteAll={onDeleteAll}
+        onAdd={onAdd}
+        cartItems={cartItems}
+        />} />
           <Route path="/coming-soon" element={<ComingSoon/>} />
           <Route path="/payment-method" element={<PaymentMethod/>} />
           <Route path="/payment-confirmation" element={<PaymentConfirmation/>} />
@@ -61,18 +65,28 @@ function App() {
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
             onAdd={onAdd} />} />
-          <Route path="/product-details" element={<ProductDetails  cartItems={cartItems}
+        <Route path="/product-details" element={<ProductDetails
+            cartItems={cartItems}
             onDelete={onDelete}
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
             onAdd={onAdd}/>} />
-          <Route path="/product-details/:id" element={<ProductDetails  cartItems={cartItems}
+        <Route path="/product-details/:id" element={<ProductDetails
+            cartItems={cartItems}
             onDelete={onDelete}
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
             onAdd={onAdd}/>} />
           <Route path="/contact" element={<Contact/>} />
-          <Route path="/product-category" element={<ProductCategory/>} />
+        <Route path="/product-category" element={<ProductCategory />} />
+        <Route path="/" element={
+          <Index
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />} />
     </Routes>
     </>
   )

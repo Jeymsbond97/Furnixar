@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import bg from '../../assets/img/bg/register.jpg'
@@ -8,15 +8,85 @@ import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
 import Aos from "aos";
+import { CartItem } from "../../libs/types/search";
+import { T } from "../../libs/types/common";
+import { MemberInput } from "../../libs/types/member";
+import { Messages } from "../../libs/config";
+import MemberService from "../../services/MemberService";
+import { sweetErrorHandling } from "../../libs/sweetAlert";
 
-export default function Register() {
+
+interface RegisterProps {
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
+    onRemove: (item: CartItem) => void;
+    onDelete: (item: CartItem) => void;
+    onDeleteAll: () => void;
+}
+
+export default function Register(props: RegisterProps) {
+    const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+    const [memberNick, setMemberNick] = useState<string>("");
+    const [memberPhone, setMemberPhone] = useState<string>("");
+    const [memberPassword, setMemberPassword] = useState<string>("");
+
     useEffect(()=>{
         Aos.init()
     })
 
-  return (
+    /** HANDLERS **/
+
+const handleUsername = (e: T) => {
+    setMemberNick(e.target.value);
+};
+
+const handlePhone = (e: T) => {
+setMemberPhone(e.target.value);
+};
+
+const handlePassword = (e: T) => {
+setMemberPassword(e.target.value);
+};
+
+const handlePasswordKeyDown = (e: T) => {
+    // Signup request
+    if (e.key === "Enter") {
+        handleSignupRequest().then();
+    }
+}
+const handleSignupRequest = async () =>{
+    try{
+    const isFullFill =
+        memberNick !== "" && memberPassword !== "" && memberPhone !== "";
+        if (!isFullFill) throw new Error(Messages.error3);
+
+        const signupInput: MemberInput = {
+            memberNick: memberNick,
+            memberPhone: memberPhone,
+            memberPassword: memberPassword,
+        };
+
+        const member = new MemberService();
+        const result = await member.signup(signupInput);
+        // Saving Authenticated users
+        console.log(result)
+    }
+    catch(err){
+        console.log(err);
+        sweetErrorHandling(err).then();
+    }
+};
+
+
+return (
     <>
-        <NavbarOne/>
+        <NavbarOne
+            cartItems={cartItems}
+            onDelete={onDelete}
+            onRemove={onRemove}
+            onDeleteAll={onDeleteAll}
+            onAdd={onAdd}
+        />
 
         <div className="flex">
             <div className="w-1/2 hidden md:block lg:flex-1" >
@@ -28,15 +98,25 @@ export default function Register() {
                     <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">Buy & sale your exclusive product only on Furnixar</p>
                     <div className="mt-7" data-aos="fade-up" data-aos-delay="300">
                         <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Full Name</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
+                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300"
+                            type="text"
+                            onChange={handleUsername}
+                            placeholder="Enter your full name" />
                     </div>
                     <div className="mt-5" data-aos="fade-up" data-aos-delay="400">
-                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Email</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
+                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Phone</label>
+                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300"
+                            type="number"
+                            onChange={handlePhone}
+                            placeholder="Enter your phone number" />
                     </div>
                     <div className="mt-5" data-aos="fade-up" data-aos-delay="500">
                         <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Password</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300 placeholder:text-xl placeholder:transform placeholder:translate-y-[10px]" type="password" placeholder="* * * * * * * *"/>
+                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300 placeholder:text-xl placeholder:transform placeholder:translate-y-[10px]"
+                            type="password"
+                            onChange={handlePassword}
+                            onKeyDown={handlePasswordKeyDown}
+                            placeholder="* * * * * * * *" />
                     </div>
                     <div className="mt-7" data-aos="fade-up" data-aos-delay="600">
                         <label className="flex items-center gap-2 iam-agree">
@@ -50,7 +130,7 @@ export default function Register() {
                         </label>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="700">
-                        <Link to="#" className="btn btn-theme-solid mt-[15px]" data-text="Register"><span>Register</span></Link>
+                        <Link to='/' onClick={handleSignupRequest} className="btn btn-theme-solid mt-[15px]" data-text="Register"><span>Register</span></Link>
                         <p className="text-lg mt-[15px]" >Already have an account ?<Link to="/login" className="text-primary font-medium ml-1 inline-block">Login</Link></p>
                     </div>
                 </div>
