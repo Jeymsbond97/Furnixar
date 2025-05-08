@@ -184,7 +184,7 @@ return (
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8" data-aos="fade-up" data-aos-delay="100">
                     {newProducts.map((item,index)=>{
                         return(
-                            <LayoutOne item={item} key={index}/>
+                            <LayoutOne item={item} key={index} onAdd={onAdd}/>
                         )
                     })}
                 </div>

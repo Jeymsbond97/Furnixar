@@ -4,13 +4,15 @@ import { RiShoppingBag2Line } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { Product } from '../../libs/types/product'
 import { serverApi } from '../../libs/config'
+import { CartItem } from '../../libs/types/search'
 
 interface Props{
     item: Product
+    onAdd: (item: CartItem) => void;
 }
 
 export default function LayoutOne(props: Props) {
-    const { item } = props;
+    const { item , onAdd} = props;
     const imagePath = `${serverApi}/${item.productImages[0]}`
     return (
         <div className="group">
@@ -24,10 +26,21 @@ export default function LayoutOne(props: Props) {
                     </div>
                 )}
                 <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
-                    <Link to="#" className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
-                        <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
-                        <span className="mt-1">Add to Cart</span>
-                    </Link>
+                <button  onClick={(e)=> {
+                        onAdd({
+                            _id: item._id,
+                            quantity: 1,
+                            name: item.productName,
+                            price: item.productPrice,
+                            image: item.productImages[0],
+                        })
+                            e.stopPropagation();
+                        }} className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon">
+                            <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]"/>
+                            <span className="mt-1">
+                                Add to Cart
+                            </span>
+                    </button>
                     <button className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                         <LuEye className="dark:text-white h-[22px] w-[20px]"/>
                         <span className="mt-1">{ item.productViews}</span>
