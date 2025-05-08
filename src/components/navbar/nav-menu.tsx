@@ -22,7 +22,12 @@ export default function NavMenu(props: BasketProps) {
 const authMember = false;
 const {cartItems, onAdd, onRemove, onDeleteAll, onDelete} = props
 const [cart, setCart] = useState<boolean>(false)
-const [count, setCount] = useState<number>(1)
+const itemsPrice: number= cartItems.reduce(
+    (a: number, c: CartItem) => a + c.quantity * c.price, 0
+);
+
+const shippingCost: number = itemsPrice < 100 ? 5 : 0;
+const totalPrice = (itemsPrice + shippingCost).toFixed(1);
 
 const cartRef = useRef<HTMLDivElement>(null);
 useEffect(() => {
@@ -66,7 +71,8 @@ return (
             :   <Stack flexDirection={"row"}>
                     <div>Cart Products: </div>
                     <DeleteForeverIcon
-                    sx={{ml: "100px", mt:"4px", fontSize:"30px", color:"black", cursor: "pointer"}}
+                        onClick={() => onDeleteAll()}
+                        sx={{ml: "100px", mt:"4px", fontSize:"30px", color:"black", cursor: "pointer"}}
                     />
                 </Stack>
             }
@@ -93,7 +99,7 @@ return (
                                         <div className="dec w-6 h-6 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
                                         <LuMinus className="text-title dark:text-white" onClick={() =>onRemove(item)}/>
                                         </div>
-                                        <input className="w-6 h-auto outline-none bg-transparent text-base mg:text-lg leading-none text-title dark:text-white text-center" type="text" value={count}/>
+                                        <input className="w-6 h-auto outline-none bg-transparent text-base mg:text-lg leading-none text-title dark:text-white text-center" type="text" value={item.quantity}/>
                                         <div className="inc w-6 h-6 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
                                         <LuPlus className="text-title dark:text-white" onClick={() =>onAdd(item)}/>
                                         </div>
@@ -106,17 +112,19 @@ return (
                         )
                     })}
                 </div>
+                {cartItems.length !== 0 ? (
                 <div className="pt-5 md:pt-[30px] mt-5 md:mt-[30px] border-t border-bdr-clr dark:border-bdr-clr-drk">
-                    <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ${ }</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Link to="/cart" className="btn btn-outline btn-sm" data-text="View Cart">
-                            <span>View Cart</span>
-                        </Link>
-                        <Link to="/checkout" className="btn btn-theme-solid btn-sm" data-text="Checkout">
-                            <span>Checkout</span>
-                        </Link>
-                    </div>
+                <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ${totalPrice } ( {itemsPrice} + {shippingCost})</h4>
+                <div className="grid grid-cols-2 gap-4">
+                    <Link to="/cart" className="btn btn-outline btn-sm" data-text="View Cart">
+                        <span>View Cart</span>
+                    </Link>
+                    <Link to="/checkout" className="btn btn-theme-solid btn-sm" data-text="Checkout">
+                        <span>Checkout</span>
+                    </Link>
                 </div>
+            </div>
+                ) : ( " " )}
             </div>
         </div>
         <div className="w-[1px] bg-title/20 dark:bg-white/20 h-7 hidden sm:block"></div>

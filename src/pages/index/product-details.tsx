@@ -14,7 +14,7 @@ import ScrollToTop from '../../components/scroll-to-top';
 
 
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
-import { LuEye } from 'react-icons/lu';
+import { LuEye,} from 'react-icons/lu';
 import { retrieveProducts } from '../shop/selector';
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
@@ -103,24 +103,43 @@ export default function ProductDetails(props: ProductProps) {
                             </p>
                         </div>
                         <div className="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up" data-aos-delay="200">
-                        <IncreDre/>
-                            <div className="flex gap-2 mt-4 sm:mt-6">
-                                <Link to="/cart" className="btn btn-solid" data-text="Add to Cart">
-                                    <span>Add to Cart</span>
-                                </Link>
+                            <IncreDre
+                                item={{
+                                    _id: data._id,
+                                    name: data.productName,
+                                    image: data.productImages[0],
+                                    price: data.productPrice,
+                                    quantity: cartItems.find((item) => item._id === data._id)?.quantity || 1,
+                                }}
+                                onAdd={onAdd}
+                                onRemove={onRemove}
+                                />
+                        <div className="flex gap-2 mt-4 sm:mt-6">
+                                <button onClick={(e)=> {
+                                                    onAdd({
+                                                    _id: data._id,
+                                                    quantity: 1,
+                                                    name: data.productName,
+                                                    price: data.productPrice,
+                                                    image: data.productImages[0],
+                                                })
+                                                e.stopPropagation();
+                                            }}   className="btn btn-solid" data-text="Add to Cart">
+                                    <div>Add to Cart</div>
+                                </button>
                                 <button className="bg-white dark:bg-title dark:text-white flex items-center bg-opacity-100 justify-center gap-2 ml-auto px-1 py-[13px] leading-none text-title rounded-[140px] h-16 text-lg new-product-icon quick-view">
                                 <LuEye className="dark:text-white h-[28px] w-[40px]" />
-                                        <span className="mt-1 block">{ data.productViews} seen</span>
+                                    <span className="mt-1 block">{ data.productViews} seen</span>
                                 </button>
-                            </div>
+                        </div>
                         </div>
                         <div>
                         <h4 className="font-medium leading-none text-xl sm:text-2xl mb-5 mt-5 sm:mb-6">Choose Category :</h4>
                         <div className="flex flex-wrap gap-[10px] md:gap-[15px]">
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Sofa & Chair"><span>Sofa & Chair</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Lamp & Vase"><span>Lamp & Vase</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Table"><span>Table</span></Link>
-                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../product-category" data-text="Wood Design"><span>Wood Design</span></Link>
+                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../shop-v1" data-text="Sofa & Chair"><span>Sofa & Chair</span></Link>
+                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../shop-v1" data-text="Lamp & Vase"><span>Lamp & Vase</span></Link>
+                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../shop-v1" data-text="Table"><span>Table</span></Link>
+                            <Link className="btn btn-theme-outline btn-sm shop1-button" to="../shop-v1" data-text="Wood Design"><span>Wood Design</span></Link>
                         </div>
                     </div>
                         <div className="pt-4 sm:pt-6" data-aos="fade-up" data-aos-delay="200">
