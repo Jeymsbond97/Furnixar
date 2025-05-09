@@ -73,6 +73,7 @@ const handleCloseLogout = () => setAnchorEl(null);
             await member.logout();
             await sweetTopSuccessAlert("success", 700);
             setAuthMember(null);
+            navigate('/')
         }catch(err){
             console.log(err);
             sweetErrorHandling(Messages.error1);
@@ -156,7 +157,7 @@ return (
                         <Logout fontSize="small" style={{ color: 'blue' }} />
                     </ListItemIcon>
                         Logout
-                    </MenuItem>
+                </MenuItem>
         </Menu>
 
         <div ref={cartRef} className={`hdr_cart_popup w-80 md:w-96 absolute z-50 top-full right-0 sm:right-10 xl:right-0 bg-white dark:bg-title p-5 md:p-[30px] border border-primary ${cart ? '' : 'hidden'}`}>

@@ -67,7 +67,6 @@ export default function Cart(props: CartProps) {
         .catch((err) => console.log(err));
 
     }, [orderInquiry, orderBuilder])
-    console.log("pausedOrder => :", pausedOrders)
 
 
     /**   HANDLER   **/
@@ -105,7 +104,7 @@ const processOrderHandler = async (e: T) => {
         const orderId = e.target.value;
         const input: OrderUpdateInput = {
             orderId: orderId,
-            orderStatus: OrderStatus.PROCESS,
+            orderStatus: OrderStatus.FINISH,
         };
 
         const confirmation = window.confirm("Do you want to checkout your order?");
@@ -158,75 +157,91 @@ return (
                                     <th className="text-lg md:text-xl font-semibold leading-none text-title dark:text-white">Total</th>
                                 </tr>
                             </thead>
-                            {pausedOrders?.map((order: Order) => (
-                                <tbody key={order._id} className="table-body" style={{ borderBottom: '5px solid black', padding: '5px', borderRadius: '12px' }}>
-                                    {order.orderItems.map((item) => {
+                            {pausedOrders.length > 0 ? (
+                            pausedOrders.map((order: Order) => (
+                            <tbody key={order._id} className="table-body" style={{ borderBottom: '5px solid black', padding: '5px', borderRadius: '12px' }}>
+                                {order.orderItems.map((item) => {
                                     const product = order.productData.find(p => p._id === item.productId);
                                     const imagePath = `${serverApi}/${product?.productImages[0]}`;
 
                                     return (
-                                        <tr key={item._id}>
+                                    <tr key={item._id}>
                                         <td className="md:w-[42%]">
-                                            <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product my-4">
+                                        <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product my-4">
                                             <div className="w-14 sm:w-20 flex-none">
-                                                <img src={imagePath} alt="product" />
+                                            <img className="w-[70px] h-[70px] object-cover" src={imagePath} alt="product" />
                                             </div>
                                             <div className="flex-1">
-                                                <h5 className="font-semibold leading-none mt-2">
+                                            <h5 className="font-semibold leading-none mt-2">
                                                 <Link to="#">{product?.productName}</Link>
-                                                </h5>
+                                            </h5>
                                             </div>
-                                            </div>
+                                        </div>
                                         </td>
                                         <td>
-                                            <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">
+                                        <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">
                                             ${item.itemPrice}
-                                            </h6>
+                                        </h6>
                                         </td>
                                         <td>
-                                            <h5>{item.itemQuantity}</h5>
+                                        <h5>{item.itemQuantity}</h5>
                                         </td>
                                         <td>
-                                            <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">
+                                        <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">
                                             ${item.itemPrice * item.itemQuantity}
-                                            </h6>
+                                        </h6>
                                         </td>
-                                        </tr>
+                                    </tr>
                                     );
-                                    })}
-
-                                    {/* Summary section for each order */}
-                                    <tr>
+                                })}
+                                <tr>
                                     <td colSpan={5} className="p-4">
-                                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 p-4 border-t border-gray-300">
+                                    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 p-4 border-t border-gray-300">
                                         <div className="flex flex-wrap gap-6 text-base sm:text-lg font-medium text-title dark:text-white">
-                                            <span>Price: <span className="font-semibold">${order.orderTotal - order.orderDelivery}</span></span>
-                                            <span>Delivery Cost: <span className="font-semibold">${order.orderDelivery}</span></span>
-                                            <span>Total Price: <span className="font-semibold">${order.orderTotal}</span></span>
+                                        <span>Price: <span className="font-semibold">${order.orderTotal - order.orderDelivery}</span></span>
+                                        <span>Delivery Cost: <span className="font-semibold">${order.orderDelivery}</span></span>
+                                        <span>Total Price: <span className="font-semibold">${order.orderTotal}</span></span>
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <button
-                                                data-text="Cancel"
-                                                value={order._id}
-                                                onClick={deleteOrderHandler}
-                                                className="btn btn-outline btn-sm"
-                                            >
+                                        <button
+                                            data-text="Cancel"
+                                            value={order._id}
+                                            onClick={deleteOrderHandler}
+                                            className="btn btn-outline btn-sm"
+                                        >
                                             Cancel
-                                            </button>
-                                            <button
-                                                value={order._id}
-                                                data-text="Checkout"
-                                                onClick={processOrderHandler}
-                                                className="btn btn-theme-solid btn-sm"
-                                            >
+                                        </button>
+                                        <button
+                                            value={order._id}
+                                            data-text="Checkout"
+                                            onClick={processOrderHandler}
+                                            className="btn btn-theme-solid btn-sm"
+                                        >
                                             Checkout
-                                            </button>
+                                        </button>
                                         </div>
-                                        </div>
+                                    </div>
                                     </td>
-                                    </tr>
+                                </tr>
                                 </tbody>
-                                ))}
+                            ))
+                            ) : (
+                            <tbody>
+                                <tr>
+                                <td colSpan={5} className="text-center py-12">
+                                    <div className="text-center text-xl mt-8 black bold dark:text-white">
+                                    <span  className="text-center text-xl mb-"> 🛒 No products in your cart. <br /></span>
+                                        <Link to='/shop-v1'
+                                            data-text="Go shopping...."
+                                            className="btn btn-outline btn-sm mt-6">
+                                            Go shopping....
+                                        </Link>
+                                    </div>
+                                </td>
+                                </tr>
+                            </tbody>
+                            )}
+
                         </table>
                     </div>
                 </div>
