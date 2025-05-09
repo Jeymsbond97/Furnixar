@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logout } from "@mui/icons-material";
@@ -13,6 +13,7 @@ import { Messages, serverApi } from '../../libs/config';
 import { useGlobals } from '../../hooks/useGlobal';
 import MemberService from '../../services/MemberService';
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../libs/sweetAlert';
+import OrderService from '../../services/OrderService';
 
 
 interface BasketProps {
@@ -24,9 +25,10 @@ interface BasketProps {
 }
 
 export default function NavMenu(props: BasketProps) {
-const { authMember, setAuthMember} = useGlobals();
+const { authMember, setOrderBuilder, setAuthMember} = useGlobals();
 const {cartItems, onAdd, onRemove, onDeleteAll, onDelete} = props
-const [cart, setCart] = useState<boolean>(false)
+    const [cart, setCart] = useState<boolean>(false)
+    const navigate = useNavigate()
 const itemsPrice: number= cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity * c.price, 0
 );
@@ -74,6 +76,25 @@ const handleCloseLogout = () => setAnchorEl(null);
         }catch(err){
             console.log(err);
             sweetErrorHandling(Messages.error1);
+        }
+    }
+
+    const proceedOrderHandler = async () => {
+        try{
+            if(!authMember) throw new Error(Messages.error2);
+
+            const order = new OrderService();
+            await order.createOrder(cartItems);
+
+            onDeleteAll();
+
+          // REFRESH VIA CONTEXT
+            setOrderBuilder(new Date());
+            navigate('/cart');
+        }
+        catch(err){
+            console.log(err);
+            sweetErrorHandling(err).then()
         }
     }
 
@@ -190,11 +211,11 @@ return (
                 <div className="pt-5 md:pt-[30px] mt-5 md:mt-[30px] border-t border-bdr-clr dark:border-bdr-clr-drk">
                 <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ${totalPrice } ( {itemsPrice} + {shippingCost})</h4>
                 <div className="grid grid-cols-2 gap-4">
-                    <Link to="/cart" className="btn btn-outline btn-sm" data-text="View Cart">
-                        <span>View Cart</span>
+                    <Link to="/shop-v1" className="btn btn-outline btn-sm" data-text="Shopping">
+                        <span>Shopping</span>
                     </Link>
-                    <Link to="/checkout" className="btn btn-theme-solid btn-sm" data-text="Checkout">
-                        <span>Checkout</span>
+                    <Link to="#" onClick={proceedOrderHandler} className="btn btn-theme-solid btn-sm" data-text="Order">
+                        <span>Order</span>
                     </Link>
                 </div>
             </div>

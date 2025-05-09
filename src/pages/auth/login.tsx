@@ -61,7 +61,6 @@ const handleLoginRequest = async () =>{
                 memberNick: memberNick,
                 memberPassword: memberPassword,
             };
-
         const member = new MemberService();
         const result = await member.login(loginInput);
         setAuthMember(result);
