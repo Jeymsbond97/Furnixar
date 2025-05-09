@@ -71,9 +71,9 @@ export default function Checkout(props: CheckoutProps) {
 const finishOrderHandler = async (e: T) => {
     try{
         if (!authMember) throw new Error(Messages.error2);
-        // const isFullFill =
-        // memberNick !== "" && memberEmail !== "" && memberPhone !== "" && memberAddress !== "";
-        // if (!isFullFill) throw new Error(Messages.error3);
+        const isFullFill =
+        memberNick !== "" && memberEmail !== "" && memberPhone !== "" && memberAddress !== "";
+        if (!isFullFill) throw new Error(Messages.error3);
         const orderId = e.target.value;
         const input: OrderUpdateInput = {
             orderId: orderId,
@@ -103,7 +103,7 @@ const finishOrderHandler = async (e: T) => {
             const orderId = e.target.value;
             const input: OrderUpdateInput = {
                 orderId: orderId,
-                orderStatus: OrderStatus.PAUSE,
+                orderStatus: OrderStatus.PAUSE
             };
 
             const confirmation = window.confirm("Are you sure cancel your order ?");
@@ -199,7 +199,7 @@ return (
                 </div>
 
                 <div>
-                    {processOrders && processOrders.length > 0 && (
+                    {processOrders && processOrders.length > 0 &&processOrders[0]?._id && (
                         <div
                             key={processOrders[0]._id}
                             className="bg-[#FAFAFA] dark:bg-dark-secondary pt-[30px] md:pt-[40px] lg:pt-[50px] px-[30px] md:px-[40px] lg:px-[50px] pb-[30px] border border-[#17243026] border-opacity-15 rounded-xl"
@@ -293,7 +293,8 @@ return (
                                 <span className="text-base sm:text-lg text-title dark:text-white leading-none sm:leading-none select-none inline-block transform translate-y-[3px]"><Link to="../terms-and-conditions">Agree all terms & Conditions</Link> </span>
                             </label>
                         </div>
-                        <div className="mt-4 md:mt-6 flex flex-wrap gap-3">
+                        <div key={processOrders[0]._id}
+                            className="mt-4 md:mt-6 flex flex-wrap gap-3">
                             <button value={processOrders[0]._id} onClick={CancelOrderHandler} className="btn btn-outline" data-text="Cancel order"><span>Cancel order</span></button>
                             <button value={processOrders[0]._id} onClick={finishOrderHandler} className="btn btn-theme-solid" data-text="Submit order"><span>Submit order</span></button>
                         </div>

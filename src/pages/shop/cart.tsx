@@ -104,7 +104,7 @@ const processOrderHandler = async (e: T) => {
         const orderId = e.target.value;
         const input: OrderUpdateInput = {
             orderId: orderId,
-            orderStatus: OrderStatus.FINISH,
+            orderStatus: OrderStatus.PROCESS,
         };
 
         const confirmation = window.confirm("Do you want to checkout your order?");
