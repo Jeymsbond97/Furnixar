@@ -78,7 +78,7 @@ export default function MyProfile(props: ProfileProps) {
                                 </Link>
                                 <Link to="#" className="flex items-center gap-2">
                                     <LuMail className="text-primary size-5"/>
-                                        <span className="leading-none font-medium text-base sm:text-lg">{ authMember?.memberEmail ? authMember.memberEmail : "Email@gmail.com"}</span>
+                                        <span className="leading-none font-medium text-base sm:text-lg">{ authMember?.memberEmail !== " " ? authMember.memberEmail : " Email@gmail.com"}</span>
                                 </Link>
                                 <Link to="#" className="flex items-center gap-2">
                                     <LuMapPin className="text-primary size-5"/>

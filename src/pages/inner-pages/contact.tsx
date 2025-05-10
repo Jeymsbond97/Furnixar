@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
 import FooterOne from "../../components/footer/footer-one";
@@ -10,6 +10,9 @@ import contactImg from '../../assets/img/thumb/contact-thumb.jpg'
 import about from '../../assets/img/svg/about.svg'
 import Aos from "aos";
 import { CartItem } from "../../libs/types/search";
+import { T } from "../../libs/types/common";
+import { Messages } from "../../libs/config";
+import { sweetTopSuccessAlert } from "../../libs/sweetAlert";
 
 interface ContactProps {
     cartItems: CartItem[];
@@ -21,10 +24,47 @@ interface ContactProps {
 
 export default function Contact(props: ContactProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
-    
-    useEffect(()=>{
+    const [memberNick, setMemberNick] = useState<string>("");
+    const [memberEmail, setMemberEmail] = useState<string>("");
+    const [memberPhone, setMemberPhone] = useState<string>("");
+    const navigate = useNavigate()
+
+    useEffect(() => {
         Aos.init()
-    },[])
+    }, []);
+
+    /**   HANDLER   **/
+        const handleUsername = (e: T) => {
+            setMemberNick(e.target.value);
+        };
+
+        const handlePhone = (e: T) => {
+        setMemberPhone(e.target.value);
+        };
+
+        const handleEmail = (e: T) => {
+        setMemberEmail(e.target.value);
+    };
+
+    const ContactHandler = () => {
+        try {
+            const isFullFill =
+                memberNick !== "" && memberEmail !== "" && memberPhone !== "";
+
+            if (!isFullFill) throw new Error(Messages.error3);
+            const confirmation = window.confirm("Do you want to send your request?");
+            if (confirmation) {
+                sweetTopSuccessAlert("Your request sent", 700).then(() => {
+                    navigate('/shop-v1');
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
+
 return (
     <>
         <NavbarOne
@@ -61,16 +101,16 @@ return (
                             <div>
                                 <div className="grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6">
                                     <div>
-                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Full Name</label>
-                                        <input className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your full name"/>
+                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Full Name <span className="text-red-500">*</span></label>
+                                        <input onChange={handleUsername} className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your full name"/>
                                     </div>
                                     <div>
-                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Email</label>
-                                        <input className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
+                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Email <span className="text-red-500">*</span></label>
+                                        <input onChange={handleEmail} className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
                                     </div>
                                     <div>
-                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Phone No.</label>
-                                        <input className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="number" placeholder="Type your phone number"/>
+                                        <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Phone No. <span className="text-red-500">*</span></label>
+                                        <input onChange={handlePhone} className="w-full h-12 md:h-14 bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="number" placeholder="Type your phone number"/>
                                     </div>
                                     <div>
                                         <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2.5 block">Subject</label>
@@ -87,7 +127,7 @@ return (
                                     <textarea className="w-full h-28 md:h-[170px] bg-snow dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" name="Message" placeholder="Type your message"></textarea>
                                 </div>
                                 <div className="mt-5">
-                                    <Link to="#" className="btn btn-solid" data-text="Submit">
+                                    <Link to="#" onClick={ContactHandler} className="btn btn-solid" data-text="Submit">
                                         <span>Submit</span>
                                     </Link>
                                 </div>

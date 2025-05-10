@@ -110,13 +110,21 @@ return (
         </button>
         {authMember ? (
         <Button  onClick={handleLogoutClick} className="hidden lg:block ml-[30px]">
+            {authMember.memberImage ? (
+                <img
+                src={`${serverApi}/${authMember.memberImage}`}
+                alt="User"
+                className="w-[45px] h-[45px] rounded-full object-cover border border-blue-500"
+                />
+            ) : (
             <AccountCircleIcon sx={{ fontSize: 45, color: "#1976d2", transform: "translateY(-2px)" }} />
+            )}
         </Button>
-        ) : (
-            <Link to="/login" className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary ml-[30px] hidden lg:block">
-                Login
-            </Link>
-        )}
+            ) : (
+                <Link to="/login" className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary ml-[30px] hidden lg:block">
+                    Login
+                </Link>
+            )}
         <Menu
             id="account-menu"
             anchorEl={anchorEl}
