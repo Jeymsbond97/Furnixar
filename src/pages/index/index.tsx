@@ -161,7 +161,7 @@ return (
                             </div>
                             <div className="product-info">
                                 <p> Products {product.productLeftCount} left</p>
-                                <h6>${product.productLeftCount}</h6>
+                                <h6>${product.productPrice}</h6>
                             </div>
                             </Link>
                         </SwiperSlide>
