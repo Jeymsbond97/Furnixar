@@ -163,7 +163,7 @@ return (
         <div ref={cartRef} className={`hdr_cart_popup w-80 md:w-96 absolute z-50 top-full right-0 sm:right-10 xl:right-0 bg-white dark:bg-title p-5 md:p-[30px] border border-primary ${cart ? '' : 'hidden'}`}>
             <h4 className="font-medium leading-none mb-4 text-xl md:text-2xl">
             {cartItems.length === 0
-            ?  <div>Cart is empty!</div>
+            ?  <div>Cart is empty</div>
             :   <Stack flexDirection={"row"}>
                     <div>Cart Products: </div>
                     <DeleteForeverIcon

@@ -51,7 +51,7 @@ export default function Cart(props: CartProps) {
     })
     useEffect(()=>{
         Aos.init()
-    })
+    }, [])
 
     useEffect(() => {
         const order = new OrderService();

@@ -138,7 +138,7 @@ return (
                 spaceBetween={20}
                 navigation={true}
                 autoplay={{
-                    delay: 3000,
+                    delay: 1000,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                 }}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import NavbarOne from "../../components/navbar/navbar-one";
@@ -10,6 +10,9 @@ import ScrollToTop from "../../components/scroll-to-top";
 import { LuMail, LuMapPin, LuPhoneCall } from "react-icons/lu";
 import Aos from "aos";
 import { CartItem } from "../../libs/types/search";
+import { useGlobals } from "../../hooks/useGlobal";
+
+
 
 
 interface ProfileProps {
@@ -22,9 +25,15 @@ interface ProfileProps {
 
 export default function MyProfile(props: ProfileProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+    const { authMember } = useGlobals();
+    const navigate = useNavigate();
+
     useEffect(()=>{
         Aos.init()
-    })
+        if (!authMember) { navigate("/");}
+    }, [authMember])
+
+
     return (
     <>
         <NavbarOne
@@ -54,24 +63,26 @@ export default function MyProfile(props: ProfileProps) {
                     <div className="w-full md:w-auto md:flex-1 overflow-auto">
                         <div className="w-full max-w-[951px] bg-[#F8F8F9] dark:bg-dark-secondary p-5 sm:p-8 lg:p-[50px]">
                             <div data-aos="fade-up" data-aos-delay="200">
-                                <h3 className="font-semibold leading-none">Kathlene Roser</h3>
-                                <span className="leading-none mt-3">Product Designer</span>
+                                <h3 className="font-semibold leading-none">{ authMember?.memberNick}</h3>
+                                <span className="text-sm mt-2 text-gray-500 block">{ authMember?.memberType}</span>
                             </div>
                             <p className="text-base sm:text-lg mt-5 sm:mt-8 md:mt-10 text-justify" data-aos="fade-up" data-aos-delay="300">
-                                All the Lorem Ipsum generators on the Internet tend to repeat predefined on the Internet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non, lobortis in in tortor lectus iaculis viverra. Adipiscing lobortis interdum fringilla euismod odio vitae nam pulvinar elementum. Nibh purus integer elementum in. Tellus vulputate habitasse ut vulputate posuere habitant vel tempor varius. 
+                                    {authMember?.memberDescr
+                                        ? authMember.memberDescr
+                                        : "Hey there! I haven't added any details to my profile just yet, but stay tuned—this space will soon reflect my passions, skills, and story. Everyone has a journey, and mine is still unfolding. Come back later to discover more about who I am and what drives me forward."}
                             </p>
                             <div className="mt-5 sm:mt-8 md:mt-10 grid gap-4 sm:gap-6" data-aos="fade-up" data-aos-delay="400">
                                 <Link to="#" className="flex items-center gap-2">
                                     <LuPhoneCall className="text-primary size-5"/>
-                                    <span className="leading-none font-medium text-base sm:text-lg">+111 - (1234 5678 99)</span>
+                                        <span className="leading-none font-medium text-base sm:text-lg">{ authMember?.memberPhone}</span>
                                 </Link>
                                 <Link to="#" className="flex items-center gap-2">
                                     <LuMail className="text-primary size-5"/>
-                                    <span className="leading-none font-medium text-base sm:text-lg">furnixar123@gmail.com</span>
+                                        <span className="leading-none font-medium text-base sm:text-lg">{ authMember?.memberEmail ? authMember.memberEmail : "Email@gmail.com"}</span>
                                 </Link>
                                 <Link to="#" className="flex items-center gap-2">
                                     <LuMapPin className="text-primary size-5"/>
-                                    <span className="leading-none font-medium text-base sm:text-lg">23/ A Lake Side , New Arizona , USA</span>
+                                        <span className="leading-none font-medium text-base sm:text-lg">{ authMember?.memberAddress ? authMember.memberAddress : "Full Address Here..."}</span>
                                 </Link>
                             </div>
                         </div>
@@ -84,5 +95,5 @@ export default function MyProfile(props: ProfileProps) {
 
         <ScrollToTop/>
     </>
-  )
+    )
 }

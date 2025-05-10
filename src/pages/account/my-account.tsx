@@ -25,8 +25,10 @@ export default function MyAccount(props: MyAccountProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
-    })
-  return (
+    }, [])
+
+
+return (
     <>
         <NavbarOne
             cartItems={cartItems}
@@ -74,7 +76,7 @@ export default function MyAccount(props: MyAccountProps) {
                                     <LuMapPin className="text-primary size-5"/>
                                     <span className="leading-none font-medium text-base sm:text-lg">23/ A Lake Side , New Arizona , USA</span>
                                 </Link>
-                            </div>                        
+                            </div>
                         </div>
                         <div className="w-full max-w-[951px] bg-[#F8F8F9] dark:bg-dark-secondary p-5 sm:p-8 lg:p-[50px]">
                             <div className="flex items-start flex-col lg:flex-row gap-5 sm:gap-6">
@@ -141,17 +143,17 @@ export default function MyAccount(props: MyAccountProps) {
                                             <span className="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">$74</span>
 
                                             <div className="w-[100px]">
-                                                {item.status === 'Completed' && 
+                                                {item.status === 'Completed' &&
                                                     <Link to="#" className="bg-[#31A051] py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
                                                         Completed
                                                     </Link>
                                                 }
-                                                {item.status === 'Pending' && 
+                                                {item.status === 'Pending' &&
                                                     <Link to="#" className="bg-[#EC991D] py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
                                                         Pending
                                                     </Link>
                                                 }
-                                                {item.status === 'Cancel' && 
+                                                {item.status === 'Cancel' &&
                                                     <Link to="#" className="bg-[#E13939] py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
                                                         Cancel
                                                     </Link>

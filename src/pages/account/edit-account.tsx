@@ -23,7 +23,7 @@ export default function EditAccount(props: EditAccountProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
     useEffect(()=>{
         Aos.init()
-    })
+    },[])
     return (
     <>
     <NavbarOne
