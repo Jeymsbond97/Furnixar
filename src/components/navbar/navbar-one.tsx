@@ -36,7 +36,7 @@ export default function NavbarOne(props: HomeNavbarOneProps) {
             return () => {
                 window.removeEventListener('scroll',handlerScroll)
             };
-        },[])
+        }, [])
 
     return (
     <div className={`header-area default-header relative z-50 bg-white dark:bg-title ${scroll ? 'sticky-header' : ''}`}>

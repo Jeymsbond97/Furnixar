@@ -47,14 +47,14 @@ const {setProducts} = actionDispatch(useDispatch());
     const [searchText, setSearchText] = useState<string>("");
     const [ productSearch, setProductSearch ] = useState<ProductInquiry>({
         page: 1,
-        limit: 16,
+        limit: 10,
         order: "createdAt",
         search: " ",
     });
 
     useEffect(()=>{
         Aos.init()
-    })
+    },[])
 
     useEffect(() => {
         const product = new ProductService()
@@ -160,6 +160,11 @@ return (
                 </div>
 
                 <div className="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 pt-8 md:pt-[50px]" data-aos="fade-up" data-aos-delay="300">
+                    {products.length === 0 && (
+                        <div className="text-center text-xl text-gray-500 py-10 col-span-full">
+                            No products found.
+                        </div>
+                    )}
                     {products.map((item, index) => {
                             const imagePath = `${serverApi}/${item.productImages[0]}`
                         return(

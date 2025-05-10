@@ -10,7 +10,6 @@ import { BasketProvider } from './context/BasketContext.tsx';
 import ContextProvider from './context/ContextProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <BasketProvider>
       <Provider store={store}>
         <ContextProvider>
@@ -22,5 +21,4 @@ createRoot(document.getElementById('root')!).render(
         </ContextProvider>
       </Provider>
     </BasketProvider>
-  </React.StrictMode>
 )
