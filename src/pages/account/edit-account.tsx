@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 
@@ -7,9 +7,16 @@ import NavbarOne from '../../components/navbar/navbar-one'
 import AccountTab from '../../components/account/account-tab'
 import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
+import { useNavigate }  from 'react-router-dom'
 
 import Aos from 'aos'
 import { CartItem } from '../../libs/types/search'
+import { Messages, serverApi } from '../../libs/config'
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert'
+import { T } from '../../libs/types/common'
+import { useGlobals } from '../../hooks/useGlobal'
+import { MemberUpdateInput } from '../../libs/types/member'
+import MemberService from '../../services/MemberService'
 
 interface EditAccountProps {
     cartItems: CartItem[];
@@ -19,11 +26,98 @@ interface EditAccountProps {
     onDeleteAll: () => void;
 }
 
+
+
 export default function EditAccount(props: EditAccountProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
-    useEffect(()=>{
+    const { authMember, setAuthMember} = useGlobals();
+    const navigate = useNavigate()
+    const [ memberImage, setMemberImage] = useState<string>(
+    authMember?.memberImage
+    ? `${serverApi}/${authMember.memberImage}`
+    : ""
+)
+    useEffect(() => {
         Aos.init()
-    },[])
+    }, []);
+
+    const [memberUpdateInput, setMemberUpdateInput] = useState<MemberUpdateInput>(
+        {
+            memberNick: authMember?.memberNick,
+            memberPhone: authMember?.memberPhone,
+            memberAddress: authMember?.memberAddress,
+            memberDescr: authMember?.memberDescr,
+            memberImage: authMember?.memberImage,
+            memberEmail: authMember?.memberEmail,
+        }
+    )
+
+
+    /**     HANDLERS     **/
+
+const memberNickHandler = (e: T) => {
+    memberUpdateInput.memberNick = e.target.value;
+    setMemberUpdateInput({...memberUpdateInput})
+};
+
+const memberPhoneHandler = (e: T) => {
+    memberUpdateInput.memberPhone = e.target.value;
+    setMemberUpdateInput({...memberUpdateInput})
+};
+
+const memberAddressHandler = (e: T) => {
+    memberUpdateInput.memberAddress = e.target.value;
+    setMemberUpdateInput({...memberUpdateInput})
+};
+
+const memberDescriptionHandler = (e: T) => {
+    memberUpdateInput.memberDescr = e.target.value;
+    setMemberUpdateInput({...memberUpdateInput})
+};
+
+const memberEmailHandler = (e: T) => {
+        memberUpdateInput.memberEmail = e.target.value;
+        setMemberUpdateInput({...memberUpdateInput})
+    };
+
+    const handleSubmitButton = async () => {
+        try{
+        if(!authMember) throw new Error(Messages.error2);
+
+        const hasAnyField = Object.values(memberUpdateInput).some(value => value !== "");
+        if (!hasAnyField) {
+            throw new Error("Hech qanday maydon to‘ldirilmagan!");
+        }
+
+            const member = new MemberService();
+            const result = await member.updateMember(memberUpdateInput);
+            setAuthMember(result);
+
+            await sweetTopSmallSuccessAlert(" Updated successfully!", 700);
+            navigate('/my-profile')
+        }
+        catch(err){
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
+    };
+
+const handleImageViewer = (e: T) => {
+    const file = e.target.files[0];
+    console.log("Selected file:", file);
+    const fileType = file.type,
+        validateImageTypes = ['image/jpg', "image/png", "image/jpeg"];
+
+    if(!validateImageTypes.includes(fileType)) {
+        sweetErrorHandling(Messages.error5).then();
+    }else{
+    if(file){
+        memberUpdateInput.memberImage = file;
+        setMemberUpdateInput({...memberUpdateInput});
+        setMemberImage(URL.createObjectURL(file));
+    }
+    }
+}
     return (
     <>
     <NavbarOne
@@ -55,35 +149,41 @@ export default function EditAccount(props: EditAccountProps) {
                         <div className="flex items-start flex-col lg:flex-row gap-5 sm:gap-6">
                             <div className="grid gap-5 sm:gap-6 w-full lg:w-1/2">
                                 <div>
-                                    <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Full Name</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your full name"/>
+                                    <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Upload Picture</label>
+                                        <input
+                                        onChange={handleImageViewer}
+                                        type="file"
+                                        accept="image/*"
+                                        placeholder="Enter your full name"
+                                        className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-3 outline-none duration-300 file:bg-transparent file:border-0 file:text-inherit file:p-0 cursor-pointer"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Designation</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your designation"/>
+                                    <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Full Name</label>
+                                            <input onChange={memberNickHandler} className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder={ authMember.memberNick} />
                                 </div>
                                 <div>
                                     <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Phone No.</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300 appearance-none" type="number" placeholder="Type your phone number"/>
+                                    <input onChange={memberPhoneHandler} className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300 appearance-none" type="number" placeholder={ authMember.memberPhone}/>
                                 </div>
                                 <div>
                                     <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Mail</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
+                                    <input onChange={memberEmailHandler} className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
                                 </div>
                             </div>
                             <div className="grid gap-5 sm:gap-6 w-full lg:w-1/2">
                                 <div>
                                     <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Location</label>
-                                    <input className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your location"/>
+                                    <input onChange={memberAddressHandler} className="w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" type="text" placeholder="Enter your location"/>
                                 </div>
                                 <div>
                                     <label className="text-base md:text-lg text-title dark:text-white leading-none mb-2 sm:mb-3 block">Bio</label>
-                                    <textarea className="w-full h-28 md:h-[168px] bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" name="Message" placeholder="Write your bio . . ."></textarea>
+                                    <textarea onChange={memberDescriptionHandler} className="w-full h-28 md:h-[168px] bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" name="Message" placeholder="Write your bio . . ."></textarea>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-5 sm:mt-8 md:mt-12">
-                            <button className="btn btn-solid" data-text="Save Change">
+                            <button onClick={handleSubmitButton} className="btn btn-solid" data-text="Save Change">
                                 <span>Save Change</span>
                             </button>
                         </div>

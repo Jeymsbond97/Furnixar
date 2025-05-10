@@ -21,6 +21,7 @@ interface ContactProps {
 
 export default function Contact(props: ContactProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd } = props;
+    
     useEffect(()=>{
         Aos.init()
     },[])

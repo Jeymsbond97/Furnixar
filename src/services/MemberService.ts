@@ -70,6 +70,7 @@ class MemberService {
             formData.append("memberAddress", input.memberAddress || "");
             formData.append("memberDescr", input.memberDescr || "");
             formData.append("memberImage", input.memberImage || " ");
+            formData.append("memberEmail", input.memberEmail || " ");
 
             const result = await axios(`${serverApi}/member/update`, {
                 method: "POST",
