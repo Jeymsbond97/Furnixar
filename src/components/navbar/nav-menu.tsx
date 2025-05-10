@@ -192,7 +192,7 @@ return (
                                 </Link>
                                 <div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[14px] md:text-[15px] leading-none block">{item.name}</span>
+                                        <span className="text-[14px] md:text-[15px] leading-none block">Total: {item.quantity} x { item.price}</span>
                                         <span className="w-[6px] h-[6px] rounded-full bg-primary"></span>
                                         <span className="text-[14px] md:text-[15px] leading-none block">${item.price * item.quantity}</span>
                                     </div>
