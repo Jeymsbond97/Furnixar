@@ -1,12 +1,31 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link} from 'react-router-dom'
+import MemberService from '../../services/MemberService'
+import { sweetErrorHandling, sweetTopSuccessAlert } from '../../libs/sweetAlert'
+import { Messages } from '../../libs/config'
+import { useGlobals } from '../../hooks/useGlobal'
 
 export default function AccountTab() {
-    const [current , setCurrent] = useState<string>('')
+    const [current, setCurrent] = useState<string>('')
+    const {setAuthMember} = useGlobals()
 
     useEffect(()=>{
         setCurrent(window.location.pathname)
-    },[])
+    }, [])
+
+     /**  HANDLERS **/
+    const handleLogoutRequest = async () => {
+        try{
+            const member = new MemberService();
+            await member.logout();
+            await sweetTopSuccessAlert("success", 700);
+            setAuthMember(null);
+
+        }catch(err){
+            console.log(err);
+            sweetErrorHandling(Messages.error1);
+        }
+    }
 
 
     return (
@@ -18,7 +37,7 @@ export default function AccountTab() {
                 <Link className="duration-300 hover:text-primary" to="/edit-account">Edit Account</Link>
             </li>
             <li className={`py-3 lg:py-6 pl-6 lg:pl-12 ${current === '/login' ? 'active text-primary' :''}`}>
-                <Link className="duration-300 hover:text-primary" to="/login">Logout</Link>
+                <Link onClick={handleLogoutRequest} className="duration-300 hover:text-primary" to="#" >Logout</Link>
             </li>
         </ul>
     )

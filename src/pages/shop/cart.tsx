@@ -50,8 +50,9 @@ export default function Cart(props: CartProps) {
         orderStatus: OrderStatus.PAUSE
     })
     useEffect(()=>{
-        Aos.init()
-    }, [])
+        Aos.init();
+        if (!authMember) { navigate("/"); }
+    }, [authMember])
 
     useEffect(() => {
         const order = new OrderService();

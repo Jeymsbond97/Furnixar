@@ -49,7 +49,7 @@ export default function Checkout(props: CheckoutProps) {
         if (!authMember) {
             navigate('/');
         }
-    }, [authMember, navigate]);
+    }, [authMember]);
 
     /**   HANDLER   **/
     const handleUsername = (e: T) => {

@@ -30,7 +30,7 @@ export default function MyProfile(props: ProfileProps) {
 
     useEffect(()=>{
         Aos.init()
-        if (!authMember) { navigate("/");}
+        if (!authMember) { navigate("/register"); }
     }, [authMember])
 
 
