@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import MemberService from '../../services/MemberService'
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../libs/sweetAlert'
 import { Messages } from '../../libs/config'
@@ -7,7 +7,8 @@ import { useGlobals } from '../../hooks/useGlobal'
 
 export default function AccountTab() {
     const [current, setCurrent] = useState<string>('')
-    const {setAuthMember} = useGlobals()
+    const { setAuthMember } = useGlobals()
+    const navigate=useNavigate()
 
     useEffect(()=>{
         setCurrent(window.location.pathname)
@@ -20,6 +21,7 @@ export default function AccountTab() {
             await member.logout();
             await sweetTopSuccessAlert("success", 700);
             setAuthMember(null);
+            navigate('/login')
 
         }catch(err){
             console.log(err);

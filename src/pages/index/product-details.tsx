@@ -15,15 +15,24 @@ import ScrollToTop from '../../components/scroll-to-top';
 
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { LuEye,} from 'react-icons/lu';
-import { retrieveProducts } from '../shop/selector';
-import { createSelector } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
+import { retrieveChoosenProduct } from '../shop/selector';
+import { createSelector, Dispatch } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
 import { serverApi } from '../../libs/config';
 import { CartItem } from '../../libs/types/search';
+import { Product } from '../../libs/types/product';
+import { setChoosenProduct } from '../shop/slice';
+import ProductService from '../../services/ProductService';
 
-const productsRetriever = createSelector(
-    retrieveProducts,
-    (products) => ({ products })
+/**  REDUX SLICE & SELECTOR  **/
+const actionDispatch = (dispatch: Dispatch) => ({
+    setChoosenProduct: (data: Product) => dispatch(setChoosenProduct(data))
+});
+
+
+const choosenProductRetriever = createSelector(
+    retrieveChoosenProduct,
+    (product) => ({ product })
 );
 
 interface ProductProps {
@@ -38,16 +47,26 @@ export default function ProductDetails(props: ProductProps) {
     const { cartItems, onDelete, onRemove, onDeleteAll, onAdd} = props;
     const [activeImage, setActiveImage] = useState<number>(1)
     const { id } = useParams();
-    const { products } = useSelector(productsRetriever);
+    console.log("id=>", id)
+    const {setChoosenProduct} = actionDispatch(useDispatch());
+    const { product } = useSelector(choosenProductRetriever);
+    console.log("id 2=>", id)
 
-    const data = products.find((item) => item._id === id);
 
+    useEffect(() => {
+        if (!id) return; // id hali undefined bo‘lishi mumkin
+        console.log("id 3=>", id);
+        const choosenProduct = new ProductService()
+        choosenProduct.getProduct(id)
+            .then((data) => setChoosenProduct(data))
+            .catch((err) => console.log(err))
+    }, [id]);
 
     useEffect(()=>{
         AOS.init()
     },[])
 
-    const imagePath1 = `${serverApi}/${data.productImages[0]}`;
+    const imagePath1 = `${serverApi}/${product?.productImages[0]}`;
     // const imagePath2 = `${serverApi}/${data.productImages[1]}`;
     // const imagePath3 = `${serverApi}/${data.productImages[2]}`;
     return (
@@ -66,7 +85,7 @@ export default function ProductDetails(props: ProductProps) {
                     <li>/</li>
                     <li><Link to="/shop-v1">Shop</Link></li>
                     <li>/</li>
-                    <li className="text-primary">{data?.productName ? data?.productName : 'Classic Relaxable Chair'}</li>
+                    <li className="text-primary">{product?.productName ? product?.productName : 'Classic Relaxable Chair'}</li>
                 </ul>
             </div>
         </div>
@@ -76,16 +95,16 @@ export default function ProductDetails(props: ProductProps) {
                 <div className="max-w-[1720px] mx-auto flex justify-between gap-10 flex-col lg:flex-row">
                     <div className="w-full lg:w-[58%]">
                         <div className="relative product-dtls-wrapper ">
-                                {data?.productDiscount && (
-                                    <button className="absolute top-5 left-0 p-2 bg-[#E13939] text-lg leading-none text-white font-medium z-50">-{data?.productDiscount }%</button>
+                                {product?.productDiscount && (
+                                    <button className="absolute top-5 left-0 p-2 bg-[#E13939] text-lg leading-none text-white font-medium z-50">-{product?.productDiscount }%</button>
                                 )}
                             <div className="product-dtls-slider">
-                                <div className={activeImage === 1 ? '' : 'hidden'}><img src={data?.productImages ? imagePath1 : product1} className='w-full h-[750px] object-cover' alt="product"/></div>
+                                <div className={activeImage === 1 ? '' : 'hidden'}><img src={product?.productImages ? imagePath1 : product1} className='w-full h-[750px] object-cover' alt="product"/></div>
                                 <div className={activeImage === 2 ? '' : 'hidden'}><img src={ product2} className='w-full h-[750px] object-cover' alt="product1"/></div>
                                 <div className={activeImage === 3 ? '' : 'hidden'}><img src={ product3} className='w-full h-[750px] object-cover' alt="product"/></div>
                             </div>
                             <div className="product-dtls-nav h-[600px]">
-                                <div onClick={()=>setActiveImage(1)} className='mb-2 '><img src={data?.productImages ? imagePath1 : product1} alt="product"/></div>
+                                <div onClick={()=>setActiveImage(1)} className='mb-2 '><img src={product?.productImages ? imagePath1 : product1} alt="product"/></div>
                                 <div onClick={()=>setActiveImage(2)} className='mb-2'><img src={ product2} alt="product2"/></div>
                                 <div onClick={()=>setActiveImage(3)} className='mb-2'><img src={ product3} alt="product3"/></div>
                             </div>
@@ -93,23 +112,23 @@ export default function ProductDetails(props: ProductProps) {
                     </div>
                     <div className="lg:max-w-[635px] w-full">
                         <div className="pb-4 sm:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
-                            <h2 className="font-semibold leading-none">{data?.productName ? data?.productName : 'Classic Relaxable Chair'}</h2>
+                            <h2 className="font-semibold leading-none">{product?.productName ? product?.productName : 'Classic Relaxable Chair'}</h2>
                             <div className="flex gap-4 items-center mt-[15px]">
-                                    <span className="text-2xl sm:text-3xl text-primary leading-none block">${ data.productPrice}</span>
+                                    <span className="text-2xl sm:text-3xl text-primary leading-none block">${ product?.productPrice}</span>
                             </div>
 
                             <p className="sm:text-lg mt-5 md:mt-7">
-                                {data.productDesc}
+                                {product?.productDesc}
                             </p>
                         </div>
                         <div className="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up" data-aos-delay="200">
                             <IncreDre
                                 item={{
-                                    _id: data._id,
-                                    name: data.productName,
-                                    image: data.productImages[0],
-                                    price: data.productPrice,
-                                    quantity: cartItems.find((item) => item._id === data._id)?.quantity || 1,
+                                    _id: product?._id,
+                                    name: product?.productName,
+                                    image: product?.productImages[0],
+                                    price: product.productPrice,
+                                    quantity: cartItems.find((item) => item._id === product._id)?.quantity || 1,
                                 }}
                                 onAdd={onAdd}
                                 onRemove={onRemove}
@@ -117,11 +136,11 @@ export default function ProductDetails(props: ProductProps) {
                         <div className="flex gap-2 mt-4 sm:mt-6">
                                 <button onClick={(e)=> {
                                                     onAdd({
-                                                    _id: data._id,
+                                                    _id: product._id,
                                                     quantity: 1,
-                                                    name: data.productName,
-                                                    price: data.productPrice,
-                                                    image: data.productImages[0],
+                                                    name: product.productName,
+                                                    price: product.productPrice,
+                                                    image: product.productImages[0],
                                                 })
                                                 e.stopPropagation();
                                             }}   className="btn btn-solid" data-text="Add to Cart">
@@ -129,7 +148,7 @@ export default function ProductDetails(props: ProductProps) {
                                 </button>
                                 <button className="bg-white dark:bg-title dark:text-white flex items-center bg-opacity-100 justify-center gap-2 ml-auto px-1 py-[13px] leading-none text-title rounded-[140px] h-16 text-lg new-product-icon quick-view">
                                 <LuEye className="dark:text-white h-[28px] w-[40px]" />
-                                    <span className="mt-1 block">{ data.productViews} seen</span>
+                                    <span className="mt-1 block">{ product?.productViews} seen</span>
                                 </button>
                         </div>
                         </div>

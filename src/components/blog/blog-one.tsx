@@ -10,7 +10,7 @@ export default function BlogOne(props: TopUserProps) {
 const { topUsers } = props;
 return (
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 md:gap-[30px]">
-        {topUsers.map((item, index) => {
+        {topUsers.slice(0,4).map((item, index) => {
                 const imagePath = `${serverApi}/${item.memberImage}`
                 return (
                     <div className="group" key={index}>
