@@ -1,3 +1,4 @@
+// import './pollyfill.ts'
 import { createRoot } from 'react-dom/client'
 import './assets/css/style.css'
 import CssBaseline from '@mui/material/CssBaseline';
