@@ -60,15 +60,13 @@ export default function ProductDetails(props: ProductProps) {
         choosenProduct.getProduct(id)
             .then((data) => setChoosenProduct(data))
             .catch((err) => console.log(err))
-    }, [id]);
+    }, [id, setChoosenProduct]);
 
     useEffect(()=>{
         AOS.init()
     },[])
 
     const imagePath1 = `${serverApi}/${product?.productImages[0]}`;
-    // const imagePath2 = `${serverApi}/${data.productImages[1]}`;
-    // const imagePath3 = `${serverApi}/${data.productImages[2]}`;
     return (
     <>
         <NavbarOne
@@ -127,8 +125,8 @@ export default function ProductDetails(props: ProductProps) {
                                     _id: product?._id,
                                     name: product?.productName,
                                     image: product?.productImages[0],
-                                    price: product.productPrice,
-                                    quantity: cartItems.find((item) => item._id === product._id)?.quantity || 1,
+                                    price: product?.productPrice,
+                                    quantity: cartItems.find((item) => item._id === product?._id)?.quantity || 1,
                                 }}
                                 onAdd={onAdd}
                                 onRemove={onRemove}

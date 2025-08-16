@@ -134,13 +134,13 @@ function App() {
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
             onAdd={onAdd} />} />
-        <Route path="/product-details" element={<ProductDetails
+        <Route path="/product-details/:id" element={<ProductDetails
             cartItems={cartItems}
             onDelete={onDelete}
             onRemove={onRemove}
             onDeleteAll={onDeleteAll}
-            onAdd={onAdd}/>} />
-        <Route path="/product-details/:id" element={<ProductDetails
+          onAdd={onAdd} />} />
+        <Route path="/product-details" element={<ProductDetails
             cartItems={cartItems}
             onDelete={onDelete}
             onRemove={onRemove}
