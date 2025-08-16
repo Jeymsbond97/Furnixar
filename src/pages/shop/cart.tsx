@@ -115,7 +115,7 @@ const processOrderHandler = async (e: T) => {
 
             // FORWARD PROCESS
             setOrderBuilder(new Date());
-            navigate('/checkout')
+            navigate('/')
 
         }
     }
