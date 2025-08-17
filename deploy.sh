@@ -9,5 +9,6 @@ git checkout master
 git pull origin master
 
 npm i --legacy-peer-deps
-npm run build
+npx tsc -b
+npx vite build
 pm2 start "npm run start:prod" --name=FURNIXAR-REACT
